@@ -1,0 +1,128 @@
+{% extends 'metronic/base.html.twig' %}
+
+{% set pageTitle = ( label | transchoice(2)) %}
+{% set porletTitle = ( ((label~' list') | transchoice(2)) ) %}
+
+{% block portletClass %}crud-scope{% endblock %}
+
+{% block porletOptions %}
+    <div class="kt-portlet__head-toolbar">
+        <div class="kt-portlet__head-wrapper">
+            <div class="kt-portlet__head-actions">
+                {% if exportFormats is defined %}
+                    <div class="dropdown dropdown-inline">
+                        <button type="button" class="btn btn-default btn-icon-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="la la-download"></i> Export
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <ul class="kt-nav">
+                                {% for format in exportFormats %}
+                                    <li class="kt-nav__item">
+                                        <a
+                                                role="menuitem" tabindex="-1"
+                                                class="kt-nav__link format-export"
+                                                href="{{ path('crud_export',{'entity':class, 'format':format}) }}"
+                                                title="Export the table results as an {{ format | upper }} file"
+                                        >
+                                            <i class="la la-file-{{ format }}-o"></i> {{ format | upper }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+                &nbsp;
+                {% if filterForm is defined and filterForm is not empty %}
+                    <a
+                            id="btn-toggle-filter"
+                            href="#filter-form"
+                            data-toggle="modal"
+                            title="{{ 'app.filter' | trans }}"
+                            class="btn btn-secondary btn-elevate btn-icon-sm"
+                    >
+                        <i class="la la-filter"></i>
+                        {{ 'Filter' | trans }}
+                    </a>
+                {% endif %}
+                &nbsp;
+                {% if is_granted(_call(class, 'getPermission', ['create']))%}
+                    <button
+                            type="button"
+                            class="btn btn-brand btn-elevate btn-icon-sm btn-new-record"
+                            data-toggle="tooltip"
+                            title=""
+                            data-load-url="{{ path('crud_new',{'entity':class}) }}"
+                            data-target-modal="#modal-form">
+                        <i class="la la-plus"></i>
+                        {{ 'New' | trans }}
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container-dt ">
+        <table
+                id="crud-table"
+                data-ordering-enabled="{{ (orderingEnabled is defined and orderingEnabled) ? 'true' : 'false' }}"
+                data-ordering-default="{{ (orderingDefault is defined and orderingDefault) ? (orderingDefault | json_encode) : 'null' }}"
+                data-ordering-columns="{{ orderingColumns is defined ? (orderingColumns | json_encode) : '[]' }}"
+                class="table table-striped table-bordered crud-table table-hover dataTable dtr-inline"
+                data-source="{{ path('crud_fetch', {'entity' : class }) }}"
+        >
+            <thead>
+
+            {% if api is defined and api == 2 %}
+                <tr>
+                    <th data-orderable="false">#</th>
+                    {% for column in tableColumns %}
+                        <th data-orderable="{{ column.orderable | raw }}">{{ column.label | transchoice(1) }}</th>
+                    {% endfor %}
+                    <th data-orderable="false"></th>
+                </tr>
+            {% else %}
+                <tr>
+                    <th>#</th>
+                    {% for column in tableColumns %}
+                        <th>{{ column | transchoice(1) }}</th>
+                    {% endfor %}
+                    <th data-orderable="false"></th>
+                </tr>
+            {% endif %}
+            </thead>
+            <tbody>
+
+            </tbody>
+            <tfoot>
+
+            {% if api is defined and api == 2 %}
+                <tr>
+                    <th>#</th>
+                    {% for column in tableColumns %}
+                        <th data-order="{{ column.orderable }}">{{ column.label | transchoice(1) }}</th>
+                    {% endfor %}
+                    <th></th>
+                </tr>
+            {% else %}
+                <tr>
+                    <th>#</th>
+                    {% for column in tableColumns %}
+                        <th>{{ column | transchoice(1) }}</th>
+                    {% endfor %}
+                    <th></th>
+                </tr>
+            {% endif %}
+            </tfoot>
+        </table>
+    </div>
+
+{% endblock %}
+
+
+{% block modal %}
+    {% include '@CodyasToolbox/crud/_modals.html.twig' %}
+{% endblock %}

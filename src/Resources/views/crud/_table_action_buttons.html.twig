@@ -1,0 +1,26 @@
+<div class="btn-group text-center">
+    {% if is_granted(_call(entity, 'getPermission', 'edit'))%}
+        <button
+                class="btn btn-sm btn-clean btn-icon btn-icon-md edit-record-btn"
+                data-toggle="tooltipp"
+                title="{{ 'app.edit' | trans }}"
+                data-load-url="{{ path('crud_edit', {'id' : record.id,'entity':entity}) }}"
+        >
+            <i class="la la-edit"></i>
+        </button>
+    {% endif %}
+    {% if is_granted(_call(entity, 'getPermission', 'remove'))%}
+        <button class="btn btn-sm btn-clean btn-icon btn-icon-md remove-record-btn"
+                data-toggle="tooltipp"
+                data-confirmation-msg-title="{{ 'app.remove_record_msg_title' | trans }}"
+                data-confirmation-msg-desc="{{ 'app.remove_record_msg_desc' | trans }}"
+                data-confirmation-msg-btn-cancel="{{ 'app.cancel' | trans }}"
+                data-confirmation-msg-btn-ok="{{ 'app.ok' | trans }}"
+                title="{{ 'app.delete' | trans }}"
+                data-token="{{ csrf_token(constant('App\\Constants::CSRF_VALIDATION_CRUD_REMOVAL')) }}"
+                data-action-url="{{ path('crud_remove', {'id' : record.id, 'entity':entity}) }}"
+        >
+            <i class="la la-trash text-danger"></i>
+        </button>
+    {% endif %}
+</div>

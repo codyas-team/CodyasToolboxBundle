@@ -1,0 +1,69 @@
+<div class="modal fade" id="modal-form">
+    <div class="modal-dialog {{ modalWider is defined and modalWider ? 'modal-lg' : '' }}">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fa fa-edit"></i> {{ label | transchoice(1) }} {{ 'Management' | trans | lower }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fa fa-window-close"></i></span></button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">
+                    <i class="fa fa-close"></i> {{ 'Cancel' | trans }}
+                </button>
+                <button type="button" id="btn-save" class="btn btn-primary btn-flat">
+                    <i class="fa fa-save"></i> {{ 'Save' | trans }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-details">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fa fa-edit"></i> {{ label | transchoice(1) }} {{ 'Management' | trans | lower }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">
+                    <i class="fa fa-close"></i> {{ 'Close' | trans }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if filterForm is defined and filterForm is not empty %}
+    <div class="modal fade" id="filter-form">
+        <div class="modal-dialog {{ modalWider is defined and modalWider ? 'modal-lg' : '' }}">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fa fa-edit"></i> {{ 'Filter' | trans  }} {{ label | transchoice(2) | lower }}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    {% include _call(class, 'getFilterFormTemplate',[]) %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <i class="fas fa-close"></i> {{ 'Cancel' | trans }}
+                    </button>
+                    <button type="button" id="btn-apply-filter" class="btn btn-primary">
+                        <i class="fa fa-filter"></i> {{ 'Apply' | trans }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

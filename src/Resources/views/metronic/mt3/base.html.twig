@@ -1,0 +1,184 @@
+{% set pageTitle = pageTitle is defined ? pageTitle : ( 'Empty page' | trans) %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- begin::Head -->
+<head>
+    <base href="../../">
+    <meta charset="utf-8"/>
+    <title>{{ pageTitle }} | BBINN Sync</title>
+    <meta name="description" content="Page with empty content">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--begin::Fonts -->
+    <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700">
+
+    <!--end::Fonts -->
+
+    <!--begin::Global Theme Styles(used by all pages) -->
+
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    <!--end::Global Theme Styles -->
+
+    <!--begin::Layout Skins(used by all pages) -->
+
+    <!--end::Layout Skins -->
+    <link rel="shortcut icon" href="assets/media/logos/favicon.ico"/>
+</head>
+
+<!-- end::Head -->
+
+<!-- begin::Body -->
+<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading">
+
+<!-- begin:: Page -->
+
+<!-- begin:: Header Mobile -->
+<div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed ">
+    <div class="kt-header-mobile__logo">
+        <a href="{{ path('dashboard') }}">
+            <img class="img-fluid w-25" src="{{ asset('img/logo-hor-blue.png') }}" alt="BBINN SYNC">
+        </a>
+    </div>
+    <div class="kt-header-mobile__toolbar">
+        <button class="kt-header-mobile__toolbar-toggler kt-header-mobile__toolbar-toggler--left"
+                id="kt_aside_mobile_toggler"><span></span></button>
+        <button class="kt-header-mobile__toolbar-toggler" id="kt_header_mobile_toggler"><span></span></button>
+        <button class="kt-header-mobile__toolbar-topbar-toggler" id="kt_header_mobile_topbar_toggler">
+            <i class="flaticon-more"></i>
+        </button>
+    </div>
+</div>
+
+<!-- end:: Header Mobile -->
+<div class="kt-grid kt-grid--hor kt-grid--root">
+    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+
+        <!-- begin:: Aside -->
+        <button class="kt-aside-close " id="kt_aside_close_btn">
+            <i class="la la-close"></i>
+        </button>
+        <div class="kt-aside  kt-aside--fixed  kt-grid__item kt-grid kt-grid--desktop kt-grid--hor-desktop"
+                id="kt_aside">
+
+            <!-- begin:: Aside -->
+            <div class="kt-aside__brand kt-grid__item  " id="kt_aside_brand">
+                <div class="kt-aside__brand-logo  ">
+                    <a href="{{ path('dashboard') }}" class="text-center">
+                        <img src="{{ asset('img/logo-blue.png') }}" alt="" class="w-50 img-fluid">
+
+                    </a>
+                </div>
+            </div>
+
+            <!-- end:: Aside -->
+
+            <!-- begin:: Aside Menu -->
+            {% include 'metronic/partial/_side_menu.html.twig' %}
+
+            <!-- end:: Aside Menu -->
+        </div>
+
+        <!-- end:: Aside -->
+        <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper kt-padding-t-65" id="kt_wrapper">
+
+            <!-- begin:: Header -->
+            <div id="kt_header" class="kt-header kt-grid__item  kt-header--fixed ">
+                {% include 'metronic/partial/_header_menu.html.twig' %}
+                <!-- begin:: Header Topbar -->
+                <div class="kt-header__topbar">
+{#                    {% include 'metronic/partial/_global_search_topbar.html.twig' %}#}
+                    {% include 'metronic/partial/_notifications.html.twig' %}
+                    {% include 'metronic/partial/_user_bar.html.twig' %}
+                </div>
+                <!-- end:: Header Topbar -->
+            </div>
+
+            <!-- end:: Header -->
+            <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
+
+                <!-- begin:: Content -->
+                <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+                    {% block outter_body %}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="kt-portlet kt-portlet--mobile {% block portletClass %}{% endblock %}">
+                                    {% if porletTitle is defined %}
+                                        <div class="kt-portlet__head kt-portlet__head--lg">
+                                            <div class="kt-portlet__head-label">
+                                                <span class="kt-portlet__head-icon">
+                                                    <i class="kt-font-brand {{ porletIcon is defined ? porletIcon : 'flaticon2-list' }}"></i>
+                                                </span>
+                                                <h3 class="kt-portlet__head-title">
+                                                    {{ porletTitle }}
+                                                </h3>
+                                            </div>
+                                            {% block porletOptions %}{% endblock %}
+                                        </div>
+                                    {% endif %}
+                                    <div class="kt-portlet__body p-3">
+                                        {% block body %}{% endblock body %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endblock %}
+                </div>
+
+                <!-- end:: Content -->
+            </div>
+
+            {% include 'metronic/partial/_footer.html.twig' %}
+        </div>
+    </div>
+</div>
+<!-- end:: Page -->
+
+{% include 'metronic/partial/_quick_panel.html.twig' %}
+{% block modal %}{% endblock %}
+<script>
+
+    var KTAppOptions = {
+        "colors": {
+            "state": {
+                "brand": "#5d78ff",
+                "dark": "#282a3c",
+                "light": "#ffffff",
+                "primary": "#5867dd",
+                "success": "#34bfa3",
+                "info": "#36a3f7",
+                "warning": "#ffb822",
+                "danger": "#fd3995"
+            },
+            "base": {
+                "label": [
+                    "#c5cbe3",
+                    "#a1a8c3",
+                    "#3d4465",
+                    "#3e4466"
+                ],
+                "shape": [
+                    "#f0f3ff",
+                    "#d9dffa",
+                    "#afb4d4",
+                    "#646c9a"
+                ]
+            }
+        }
+    };
+
+</script>
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+
+<!--end::Page Scripts -->
+</body>
+
+<!-- end::Body -->
+</html>

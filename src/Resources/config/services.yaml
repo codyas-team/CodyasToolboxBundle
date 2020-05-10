@@ -1,0 +1,3 @@
+services:
+    Codyas\Toolbox\Controller\CrudController:
+        tags: ['controller.service_arguments']
