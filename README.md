@@ -53,6 +53,13 @@ codyas_toolbox_bundle:
     type: annotation
 ```
 
+Templating
+----------
+This bundle provides a standard templating system for Twig. The templates selected to benefits from the pre-designed view, 
+must extends the `base.html.twig` file of the selected theme. Currently one theme is supported, and the themes are located under the 
+`Resources/views/` folder of the bundle.  
+
+
 Assets configuration
 --------------------
 This bundle provides a selection of assets required by the template(s) and by the CRUD features and some others.
@@ -66,13 +73,23 @@ yarn add --save @codyas/symfony-toolbox
 ```
 
 This will install the assets and all other UI dependencies required by the template. Once the installation
-is completed, edit the default `app.js` inside the assets folder and include the desired features.
+is completed, create an entry point file in the project's assets folder, ex: `admin_app.js` and include the desired features.
 
 ```javascript
-// assets/js/app.js
+// assets/js/admin_app.js
 
 require('@codyas/symfony-toolbox');
 ``` 
+
+Next register the entry point in the `webpack.config.js` file. The entry name must be `codyas_ep` as the templating config expects this name.
+
+```javascript
+// assets/js/app.js
+// (...)
+.addEntry('codyas_ep', './assets/admin/admin_app.js')
+// (...)
+``` 
+ 
 
 If some customization of the CRUD behaviour is needed, append the following code to the same file
 where **custom_folder** stands for a folder inside **assets/js/** that contains JS files. This files
