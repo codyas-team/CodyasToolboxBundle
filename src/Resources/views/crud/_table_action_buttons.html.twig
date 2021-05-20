@@ -17,7 +17,7 @@
                 data-confirmation-msg-btn-cancel="{{ 'app.cancel' | trans }}"
                 data-confirmation-msg-btn-ok="{{ 'app.ok' | trans }}"
                 title="{{ 'app.delete' | trans }}"
-                data-token="{{ csrf_token(constant('App\\Constants::CSRF_VALIDATION_CRUD_REMOVAL')) }}"
+                data-token="{{ csrf_token(constant('Codyas\\Toolbox\\Constants::CSRF_VALIDATION_CRUD_REMOVAL')) }}"
                 data-action-url="{{ path('crud_remove', {'id' : record.id, 'entity':entity}) }}"
         >
             <i class="la la-trash text-danger"></i>

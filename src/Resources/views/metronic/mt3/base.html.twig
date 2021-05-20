@@ -20,7 +20,7 @@
     <!--begin::Global Theme Styles(used by all pages) -->
 
     {% block stylesheets %}
-        {{ encore_entry_link_tags('app') }}
+        {{ encore_entry_link_tags('codyas_ep') }}
     {% endblock %}
 
     <!--end::Global Theme Styles -->
@@ -41,8 +41,8 @@
 <!-- begin:: Header Mobile -->
 <div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed ">
     <div class="kt-header-mobile__logo">
-        <a href="{{ path('dashboard') }}">
-            <img class="img-fluid w-25" src="{{ asset('img/logo-hor-blue.png') }}" alt="BBINN SYNC">
+        <a href="{{ path(codyas_tb_config('home_path')) }}">
+            <img class="img-fluid w-25" src="{{ asset(codyas_tb_config('logo')) }}">
         </a>
     </div>
     <div class="kt-header-mobile__toolbar">
@@ -69,8 +69,8 @@
             <!-- begin:: Aside -->
             <div class="kt-aside__brand kt-grid__item  " id="kt_aside_brand">
                 <div class="kt-aside__brand-logo  ">
-                    <a href="{{ path('dashboard') }}" class="text-center">
-                        <img src="{{ asset('img/logo-blue.png') }}" alt="" class="w-50 img-fluid">
+                    <a href="{{ path(codyas_tb_config('home_path')) }}" class="text-center">
+                        <img src="{{ asset(codyas_tb_config('logo')) }}" alt="" class="w-50 img-fluid">
 
                     </a>
                 </div>
@@ -79,7 +79,7 @@
             <!-- end:: Aside -->
 
             <!-- begin:: Aside Menu -->
-            {% include 'metronic/partial/_side_menu.html.twig' %}
+            {% include '@CodyasToolbox/metronic/mt3/partial/_side_menu.html.twig' %}
 
             <!-- end:: Aside Menu -->
         </div>
@@ -89,12 +89,12 @@
 
             <!-- begin:: Header -->
             <div id="kt_header" class="kt-header kt-grid__item  kt-header--fixed ">
-                {% include 'metronic/partial/_header_menu.html.twig' %}
+                {% include '@CodyasToolbox/metronic/mt3/partial/_header_menu.html.twig' %}
                 <!-- begin:: Header Topbar -->
                 <div class="kt-header__topbar">
 {#                    {% include 'metronic/partial/_global_search_topbar.html.twig' %}#}
-                    {% include 'metronic/partial/_notifications.html.twig' %}
-                    {% include 'metronic/partial/_user_bar.html.twig' %}
+                    {% include '@CodyasToolbox/metronic/mt3/partial/_notifications.html.twig' %}
+                    {% include '@CodyasToolbox/metronic/mt3/partial/_user_bar.html.twig' %}
                 </div>
                 <!-- end:: Header Topbar -->
             </div>
@@ -133,13 +133,13 @@
                 <!-- end:: Content -->
             </div>
 
-            {% include 'metronic/partial/_footer.html.twig' %}
+            {% include '@CodyasToolbox/metronic/mt3/partial/_footer.html.twig' %}
         </div>
     </div>
 </div>
 <!-- end:: Page -->
 
-{% include 'metronic/partial/_quick_panel.html.twig' %}
+{% include '@CodyasToolbox/metronic/mt3/partial/_quick_panel.html.twig' %}
 {% block modal %}{% endblock %}
 <script>
 
@@ -174,7 +174,7 @@
 
 </script>
 {% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('codyas_ep') }}
 {% endblock %}
 
 <!--end::Page Scripts -->

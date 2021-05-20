@@ -2,7 +2,7 @@
     <div class="modal-dialog {{ modalWider is defined and modalWider ? 'modal-lg' : '' }}">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="fa fa-edit"></i> {{ label | transchoice(1) }} {{ 'Management' | trans | lower }}</h5>
+                <h5 class="modal-title"><i class="fa fa-edit"></i> {{ label | trans({'%count%' : 1}) }} {{ 'Management' | trans | lower }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><i class="fa fa-window-close"></i></span></button>
             </div>
@@ -24,7 +24,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="fa fa-edit"></i> {{ label | transchoice(1) }} {{ 'Management' | trans | lower }}</h5>
+                <h5 class="modal-title"><i class="fa fa-edit"></i> {{ label | trans({'%count%' : 1}) }} {{ 'Management' | trans | lower }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span></button>
 
@@ -47,7 +47,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        <i class="fa fa-edit"></i> {{ 'Filter' | trans  }} {{ label | transchoice(2) | lower }}
+                        <i class="fa fa-edit"></i> {{ 'Filter' | trans  }} {{ label | trans({'%count%' : 2}) | lower }}
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span></button>

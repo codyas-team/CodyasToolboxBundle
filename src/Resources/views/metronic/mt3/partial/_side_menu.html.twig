@@ -14,14 +14,24 @@
 
 {% macro render_menu_item(menu_item) %}
     {% import _self as self %}
-    {% set active_class = menu_item.path is defined and is_menu_active(menu_item.path) ? 'kt-menu__item--active' : '' %}
-    {% if is_granted(menu_item.roles) %}
+    {% set active_class = menu_item.path is defined and is_menu_active(menu_item) ? 'kt-menu__item--active' : '' %}
+    {% if menu_item.roles is iterable %}
+        {% set isGranted = false %}
+        {% for role in menu_item.roles %}
+            {% if not isGranted %}
+                {% set isGranted = is_granted(role) %}
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        {% set isGranted = is_granted(menu_item.roles) %}
+    {% endif %}
+    {% if isGranted %}
         {% if menu_item.type == 'item' %}
             {% if menu_item.children is defined and menu_item.children %}
-                <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                <li class="kt-menu__item  kt-menu__item--submenu {{ is_menu_parent_active(menu_item.children) ? 'kt-menu__item--active' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                     <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                         <i class="kt-menu__link-icon {{ menu_item.icon }} "></i>
-                        <span class="kt-menu__link-text">{{ menu_item.text | transchoice(2) }}</span></a>
+                        <span class="kt-menu__link-text">{{ menu_item.text | trans({'%count%' : 2}) }}</span></a>
                     <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                         <ul class="kt-menu__subnav">
                             {% for child in menu_item.children %}
@@ -35,13 +45,13 @@
                 <li class="kt-menu__item {{ active_class }}" aria-haspopup="true">
                     <a href="{{ path(menu_item.path) }}" class="kt-menu__link p-2">
                         <i class="kt-menu__link-icon {{ menu_item.icon }}"></i>
-                        <span class="kt-menu__link-text">{{ menu_item.text | transchoice(2) }}</span></a>
+                        <span class="kt-menu__link-text">{{ menu_item.text | trans({'%count%' : 2}) }}</span></a>
                 </li>
             {% endif %}
 
 
         {% elseif menu_item.type == 'separator' %}
-            <li class="header">{{ menu_item.text | transchoice(2) | upper }}</li>
+            <li class="header">{{ menu_item.text | trans({'%count%' : 2}) | upper }}</li>
         {% endif %}
 
     {% endif %}

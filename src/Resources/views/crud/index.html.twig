@@ -1,7 +1,7 @@
-{% extends 'metronic/base.html.twig' %}
+{% extends '@CodyasToolbox/metronic/mt3/base.html.twig' %}
 
-{% set pageTitle = ( label | transchoice(2)) %}
-{% set porletTitle = ( ((label~' list') | transchoice(2)) ) %}
+{% set pageTitle = ( label | trans({'%count%' : 2})) %}
+{% set porletTitle = ( ((label~' list') | trans({'%count%' : 2})) ) %}
 
 {% block portletClass %}crud-scope{% endblock %}
 
@@ -80,7 +80,7 @@
                 <tr>
                     <th data-orderable="false">#</th>
                     {% for column in tableColumns %}
-                        <th data-orderable="{{ column.orderable | raw }}">{{ column.label | transchoice(1) }}</th>
+                        <th data-orderable="{{ column.orderable | raw }}">{{ column.label | trans({'%count%' : 2}) }}</th>
                     {% endfor %}
                     <th data-orderable="false"></th>
                 </tr>
@@ -88,7 +88,7 @@
                 <tr>
                     <th>#</th>
                     {% for column in tableColumns %}
-                        <th>{{ column | transchoice(1) }}</th>
+                        <th>{{ column | trans({'%count%' : 2}) }}</th>
                     {% endfor %}
                     <th data-orderable="false"></th>
                 </tr>
@@ -103,7 +103,7 @@
                 <tr>
                     <th>#</th>
                     {% for column in tableColumns %}
-                        <th data-order="{{ column.orderable }}">{{ column.label | transchoice(1) }}</th>
+                        <th data-order="{{ column.orderable }}">{{ column.label | trans({'%count%' : 1}) }}</th>
                     {% endfor %}
                     <th></th>
                 </tr>
@@ -111,7 +111,7 @@
                 <tr>
                     <th>#</th>
                     {% for column in tableColumns %}
-                        <th>{{ column | transchoice(1) }}</th>
+                        <th>{{ column | trans({'%count%' : 1}) }}</th>
                     {% endfor %}
                     <th></th>
                 </tr>

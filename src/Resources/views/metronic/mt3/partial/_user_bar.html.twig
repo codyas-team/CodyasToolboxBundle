@@ -31,14 +31,14 @@
 
         <!--begin: Navigation -->
         <div class="kt-notification">
-            <a href="{{ path('fos_user_security_logout') }}"
+            <a href="{{ path('app_logout') }}"
                     class="kt-notification__item">
                 <div class="kt-notification__item-icon">
                     <i class="flaticon2-shield"></i>
                 </div>
                 <div class="kt-notification__item-details">
                     <div class="kt-notification__item-title kt-font-bold">
-                        Sign out
+                        {{ 'Logout' | trans }}
                     </div>
                     <div class="kt-notification__item-time">
                         Close your session in the system

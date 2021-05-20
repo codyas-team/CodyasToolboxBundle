@@ -10,13 +10,9 @@ use Codyas\Toolbox\Model\CrudCancelable;
 use Codyas\Toolbox\Model\CrudCustomizable;
 use Codyas\Toolbox\Model\CrudOperationable;
 use Codyas\Toolbox\Exception\ClientInputException;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use FOS\UserBundle\Model\UserManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -24,6 +20,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 class CrudController extends AbstractController
 {
@@ -106,14 +103,14 @@ class CrudController extends AbstractController
 	{
 		if ( ! $this->isGranted( $entity::getPermission( $action ) ) )
 		{
-			throw new AccessDeniedHttpException( \App\Constants::ERROR_INVALID_CRUD_CREDENTIALS );
+			throw new AccessDeniedHttpException( Constants::ERROR_INVALID_CRUD_CREDENTIALS );
 		}
 	}
 
 	/**
 	 * @Route("/crud/export/{entity}/{format}", name="crud_export")
 	 */
-	public function export( ReportGeneratorService $reportGeneratorService, $format, $entity, PaginatorInterface $paginator, Request $request, TranslatorInterface $translator, \Symfony\Component\Templating\EngineInterface $twig )
+	public function export( ReportGeneratorService $reportGeneratorService, $format, $entity, PaginatorInterface $paginator, Request $request, TranslatorInterface $translator, Environment $twig )
 	{
 		$start  = $request->query->get( 'start', 0 );
 		$length = $request->query->get( 'length', 10 );
