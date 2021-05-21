@@ -41,7 +41,7 @@ trait CrudCustomizableTrait
 	}
 
 	public static function getFilterFormTemplate() {
-		return null;
+		return '@CodyasToolbox/crud/_filter_form.html.twig';
 	}
 
 	public static function hasCustomFetchMethod() {

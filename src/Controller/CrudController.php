@@ -6,10 +6,10 @@ use App\Crud\Model\CrudExportable;
 use App\Service\ReportGeneratorService;
 use Codyas\Toolbox\Constants;
 use Codyas\Toolbox\Events\CrudRecordDeletedEvent;
-use Codyas\Toolbox\Model\CrudCancelable;
+use Codyas\Toolbox\Exception\ClientInputException;
 use Codyas\Toolbox\Model\CrudCustomizable;
 use Codyas\Toolbox\Model\CrudOperationable;
-use Codyas\Toolbox\Exception\ClientInputException;
+use Codyas\Toolbox\Model\RowRendererArguments;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,12 +18,29 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 class CrudController extends AbstractController
 {
+
+	private $translator, $router, $twig, $authorizationChecker, $passwordEncoder;
+
+	public function __construct( TranslatorInterface $translator, RouterInterface $router, Environment $environment, AuthorizationCheckerInterface $authorizationChecker, UserPasswordEncoderInterface $passwordEncoder )
+	{
+		$this->translator           = $translator;
+		$this->router               = $router;
+		$this->twig                 = $environment;
+		$this->authorizationChecker = $authorizationChecker;
+		$this->passwordEncoder      = $passwordEncoder;
+	}
+
 	/**
 	 * @Route("/crud/fetch/{entity}", name="crud_fetch")
 	 */
@@ -71,7 +88,7 @@ class CrudController extends AbstractController
 			{
 				if ( $item instanceof CrudCustomizable )
 				{
-					$actionButtons = $item->getActionButtons( $this->get('twig'), $item );
+					$actionButtons = $item->getActionButtons( $this->get( 'twig' ), $item );
 				} else
 				{
 					$actionButtons = [
@@ -84,9 +101,9 @@ class CrudController extends AbstractController
 
 				$response [] = array_merge(
 					$item->showTableIndex() ? [ $key + 1 ] : [],
-					$item->renderDataTableRow( [
-						'translator' => $translator
-					] ),
+					$item->renderDataTableRow( new RowRendererArguments(
+						$this->translator, $this->router, $this->twig, $this->authorizationChecker, $this->getUser()
+					) ),
 					$actionButtons
 				);
 			}
@@ -251,7 +268,7 @@ class CrudController extends AbstractController
 	/**
 	 * @Route("/edit/{entity}/{id}", name="crud_edit", methods={"GET","POST"})
 	 */
-	public function editRecord( ManagerRegistry $registry, Request $request, $entity, $id, UserManagerInterface $userManager )
+	public function editRecord( ManagerRegistry $registry, Request $request, $entity, $id )
 	{
 		$this->isActionAllowed( $entity, 'edit' );
 		$em       = $registry->getManager();
@@ -270,11 +287,6 @@ class CrudController extends AbstractController
 			$form->handleRequest( $request );
 			if ( $form->isValid() )
 			{
-				if ( $instance instanceof User )
-				{
-					$userManager->updateUser( $instance );
-				}
-
 				if ( array_key_exists( Constants::UPDATE, $instance->getPersistenceCallbacks() ) )
 				{
 					$callbacks     = $instance->getPersistenceCallbacks();
@@ -305,7 +317,7 @@ class CrudController extends AbstractController
 		{
 			throw new AccessDeniedHttpException();
 		}
-		$em = $registry->getManager();
+		$em       = $registry->getManager();
 		$instance = $em->getRepository( $entity )->find( $id );
 		if ( ! $instance )
 		{
