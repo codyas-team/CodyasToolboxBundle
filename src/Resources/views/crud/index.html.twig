@@ -64,62 +64,7 @@
 {% endblock %}
 
 {% block body %}
-
-    <div class="container-dt ">
-        <table
-                id="crud-table"
-                data-ordering-enabled="{{ (orderingEnabled is defined and orderingEnabled) ? 'true' : 'false' }}"
-                data-ordering-default="{{ (orderingDefault is defined and orderingDefault) ? (orderingDefault | json_encode) : 'null' }}"
-                data-ordering-columns="{{ orderingColumns is defined ? (orderingColumns | json_encode) : '[]' }}"
-                class="table table-striped table-bordered crud-table table-hover dataTable dtr-inline"
-                data-source="{{ path('crud_fetch', {'entity' : class }) }}"
-        >
-            <thead>
-
-            {% if api is defined and api == 2 %}
-                <tr>
-                    <th data-orderable="false">#</th>
-                    {% for column in tableColumns %}
-                        <th data-orderable="{{ column.orderable | raw }}">{{ column.label | trans({'%count%' : 2}) }}</th>
-                    {% endfor %}
-                    <th data-orderable="false"></th>
-                </tr>
-            {% else %}
-                <tr>
-                    <th>#</th>
-                    {% for column in tableColumns %}
-                        <th>{{ column | trans({'%count%' : 2}) }}</th>
-                    {% endfor %}
-                    <th data-orderable="false"></th>
-                </tr>
-            {% endif %}
-            </thead>
-            <tbody>
-
-            </tbody>
-            <tfoot>
-
-            {% if api is defined and api == 2 %}
-                <tr>
-                    <th>#</th>
-                    {% for column in tableColumns %}
-                        <th data-order="{{ column.orderable }}">{{ column.label | trans({'%count%' : 1}) }}</th>
-                    {% endfor %}
-                    <th></th>
-                </tr>
-            {% else %}
-                <tr>
-                    <th>#</th>
-                    {% for column in tableColumns %}
-                        <th>{{ column | trans({'%count%' : 1}) }}</th>
-                    {% endfor %}
-                    <th></th>
-                </tr>
-            {% endif %}
-            </tfoot>
-        </table>
-    </div>
-
+    {% include '@CodyasToolbox/crud/_table.html.twig' %}
 {% endblock %}
 
 

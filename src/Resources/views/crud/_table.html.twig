@@ -1,0 +1,62 @@
+{% import _self as self %}
+
+<div class="container-dt ">
+    <table
+            id="crud-table"
+            data-custom-dom="{{ tableDom is defined ? tableDom : '' }}"
+            data-ordering-enabled="{{ (orderingEnabled is defined and orderingEnabled) ? 'true' : 'false' }}"
+            data-summarize-columns="{{ (summarizeColumns is defined and summarizeColumns) ? (summarizeColumns | json_encode) : '' }}"
+            data-ordering-default="{{ (orderingDefault is defined and orderingDefault) ? (orderingDefault | json_encode) : 'null' }}"
+            data-ordering-columns="{{ orderingColumns is defined ? (orderingColumns | json_encode) : '[]' }}"
+            class="table table-striped table-bordered crud-table table-hover dataTables dtr-inline {{ tableClass is defined ? tableClass : '' }}"
+            data-source="{{ path('crud_fetch', {'entity' : class }) }}"
+    >
+        <thead>
+        {% if api is defined and api == 2 %}
+            {{ self.renderHeaderApiV2(class, tableColumns) }}
+        {% else %}
+            {{ self.renderHeader(class, tableColumns) }}
+        {% endif %}
+        </thead>
+        <tbody>
+
+        </tbody>
+        <tfoot>
+        {% if api is defined and api == 2 %}
+            {{ self.renderHeaderApiV2(class, tableColumns) }}
+        {% else %}
+            {{ self.renderHeader(class, tableColumns) }}
+        {% endif %}
+        </tfoot>
+    </table>
+</div>
+
+
+{% macro renderHeaderApiV2(class, tableColumns) %}
+    <tr>
+        {% if _call(class, 'displayRowNumber', []) %}
+            <th>{{ 'app.number' | trans }}</th>
+        {% endif %}
+
+        {% for column in tableColumns %}
+            <th data-orderable="{{ column.orderable | raw }}">{{ column.label | trans({'%count%':1}) }}</th>
+        {% endfor %}
+        {% if _call(class, 'displayActionButtons', []) %}
+            <th></th>
+        {% endif %}
+    </tr>
+{% endmacro %}
+
+{% macro renderHeader(class, tableColumns) %}
+    <tr>
+        {% if _call(class, 'displayRowNumber', []) %}
+            <th>{{ 'app.number' | trans }}</th>
+        {% endif %}
+        {% for column in tableColumns %}
+            <th>{{ column | trans({'%count%':1}) }}</th>
+        {% endfor %}
+        {% if _call(class, 'displayActionButtons', []) %}
+            <th></th>
+        {% endif %}
+    </tr>
+{% endmacro %}

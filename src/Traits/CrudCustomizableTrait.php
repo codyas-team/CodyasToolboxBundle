@@ -70,4 +70,19 @@ trait CrudCustomizableTrait
 		return true;
 	}
 
+	public static function isReadOnly() : bool
+	{
+		return false;
+	}
+
+	public static function displayRowNumber() : bool
+	{
+		return true;
+	}
+
+	public static function displayActionButtons() : bool
+	{
+		return true;
+	}
+
 }
