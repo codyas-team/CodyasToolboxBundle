@@ -2,7 +2,7 @@
 
 namespace Codyas\Toolbox\DependencyInjection;
 
-use Codyas\Toolbox\Twig\CodyasExtension;
+use Codyas\Toolbox\Twig\AdminExtension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;

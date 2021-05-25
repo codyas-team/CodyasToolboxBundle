@@ -8,7 +8,7 @@
     <base href="../../">
     <meta charset="utf-8"/>
     <title>{{ pageTitle }} | {{ codyas_tb_config('app_name') }}</title>
-    <meta name="description" content="Page with empty content">
+    <meta name="description" content="{{ codyas_tb_config('app_description') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!--begin::Fonts -->
@@ -93,6 +93,7 @@
                 <!-- begin:: Header Topbar -->
                 <div class="kt-header__topbar">
 {#                    {% include 'metronic/partial/_global_search_topbar.html.twig' %}#}
+                    {% block notificationsBar %}{% endblock %}
                     {% include '@CodyasToolbox/metronic/mt3/partial/_notifications.html.twig' %}
                     {% include '@CodyasToolbox/metronic/mt3/partial/_user_bar.html.twig' %}
                 </div>

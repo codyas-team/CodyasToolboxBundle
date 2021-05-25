@@ -42,9 +42,6 @@ class CodyasExtension extends AbstractExtension
 			new TwigFunction( 'is_array', [ $this, 'isArray' ] ),
 			new TwigFunction( 'get_record', [ $this, 'getRecord' ] ),
 			new TwigFunction( '_call', [ $this, 'callStaticFunction' ] ),
-			new TwigFunction( 'get_system_balance', [ $this, 'getSystemBalance' ] ),
-			new TwigFunction( 'get_active_promotion', [ $this, 'getNextOrActivePromotions' ] ),
-			new TwigFunction( 'open_cart', [ $this, 'getOpenCart' ] ),
 			new TwigFunction( 'codyas_tb_config', [ $this, 'getConfig' ] ),
 
 		];
@@ -132,33 +129,6 @@ class CodyasExtension extends AbstractExtension
 	public function canonicalize( string $string )
 	{
 		return strtolower( str_replace( ' ', '-', $string ) );
-	}
-
-	public function getSystemBalance()
-	{
-		return $this->container
-			->get( 'doctrine' )
-			->getManager()
-			->getRepository( Operation::class )->sum();
-	}
-
-	public function getNextOrActivePromotions()
-	{
-		return $this->container
-			->get( 'doctrine' )
-			->getManager()
-			->getRepository( Promotion::class )->getNextOrActivePromotions();
-	}
-
-	public function getOpenCart()
-	{
-		return $this->container
-			->get( 'doctrine' )
-			->getManager()
-			->getRepository( Cart::class )
-			->getOpenUserCart(
-				$this->container->get( 'security.token_storage' )->getToken()->getUser()
-			);
 	}
 
 	public function getAppDomain( $resource )

@@ -5,8 +5,12 @@ namespace Codyas\Toolbox\Controller;
 use App\Crud\Model\CrudExportable;
 use App\Service\ReportGeneratorService;
 use Codyas\Toolbox\Constants;
-use Codyas\Toolbox\Events\CrudRecordDeletedEvent;
+use Codyas\Toolbox\Event\CrudEntityCreatedEvent;
+use Codyas\Toolbox\Event\CrudEntityModifiedEvent;
+use Codyas\Toolbox\Event\CrudEntityRemovedEvent;
+use Codyas\Toolbox\Event\CrudRecordDeletedEvent;
 use Codyas\Toolbox\Exception\ClientInputException;
+use Codyas\Toolbox\Model\CrudCancelable;
 use Codyas\Toolbox\Model\CrudCustomizable;
 use Codyas\Toolbox\Model\CrudOperationable;
 use Codyas\Toolbox\Model\RowRendererArguments;
@@ -20,9 +24,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
@@ -30,15 +32,22 @@ use Twig\Environment;
 class CrudController extends AbstractController
 {
 
-	private $translator, $router, $twig, $authorizationChecker, $passwordEncoder;
+	private $translator, $router, $twig, $authorizationChecker, $passwordEncoder, $dispatcher;
 
-	public function __construct( TranslatorInterface $translator, RouterInterface $router, Environment $environment, AuthorizationCheckerInterface $authorizationChecker, UserPasswordEncoderInterface $passwordEncoder )
-	{
+	public function __construct(
+		TranslatorInterface $translator,
+		RouterInterface $router,
+		Environment $environment,
+		AuthorizationCheckerInterface $authorizationChecker,
+		UserPasswordEncoderInterface $passwordEncoder,
+		EventDispatcherInterface $dispatcher
+	) {
 		$this->translator           = $translator;
 		$this->router               = $router;
 		$this->twig                 = $environment;
 		$this->authorizationChecker = $authorizationChecker;
 		$this->passwordEncoder      = $passwordEncoder;
+		$this->dispatcher           = $dispatcher;
 	}
 
 	/**
@@ -210,7 +219,7 @@ class CrudController extends AbstractController
 	}
 
 	/**
-	 * @Route("/new/{entity}", name="crud_new", methods={"GET","POST"})
+	 * @Route("/crud/new/{entity}", name="crud_new", methods={"GET","POST"})
 	 */
 	public function newRecord( ManagerRegistry $registry, Request $request, $entity )
 	{
@@ -237,6 +246,8 @@ class CrudController extends AbstractController
 
 				$em->persist( $instance );
 				$em->flush();
+
+				$this->dispatcher->dispatch( new CrudEntityCreatedEvent( $instance ) );
 
 				return $this->json( [], 201 );
 			}
@@ -266,7 +277,7 @@ class CrudController extends AbstractController
 	}
 
 	/**
-	 * @Route("/edit/{entity}/{id}", name="crud_edit", methods={"GET","POST"})
+	 * @Route("/crud/edit/{entity}/{id}", name="crud_edit", methods={"GET","POST"})
 	 */
 	public function editRecord( ManagerRegistry $registry, Request $request, $entity, $id )
 	{
@@ -297,6 +308,8 @@ class CrudController extends AbstractController
 				$em->persist( $instance );
 				$em->flush();
 
+				$this->dispatcher->dispatch( new CrudEntityModifiedEvent( $instance ) );
+
 				return $this->json( [], 200 );
 			}
 		}
@@ -308,16 +321,16 @@ class CrudController extends AbstractController
 	}
 
 	/**
-	 * @Route("/remove/{entity}/{id}", name="crud_remove", methods={"DELETE"})
+	 * @Route("/crud/remove/{entity}/{id}", name="crud_remove", methods={"DELETE"})
 	 */
-	public function removeRecord( ManagerRegistry $registry, Request $request, $entity, $id, EventDispatcherInterface $eventDispatcher )
+	public function removeRecord( Request $request, $entity, $id )
 	{
 		$this->isActionAllowed( $entity, 'remove' );
 		if ( $this->isCsrfTokenValid( Constants::CSRF_VALIDATION_CRUD_REMOVAL, $request->get( 'token' ) ) )
 		{
 			throw new AccessDeniedHttpException();
 		}
-		$em       = $registry->getManager();
+		$em       = $this->getDoctrine();
 		$instance = $em->getRepository( $entity )->find( $id );
 		if ( ! $instance )
 		{
@@ -327,7 +340,7 @@ class CrudController extends AbstractController
 		{
 			throw new ClientInputException( Constants::ERROR_INVALID_CRUD_ENTITY );
 		}
-		if ( $instance instanceof \App\Crud\Model\CrudCancelable )
+		if ( $instance instanceof CrudCancelable )
 		{
 			$instance->setStatus( Constants::STATUS_CANCELED );
 			$em->persist( $instance );
@@ -352,7 +365,8 @@ class CrudController extends AbstractController
 			}
 		}
 
-		$eventDispatcher->dispatch( new CrudRecordDeletedEvent( $instance ) );
+		$this->dispatcher->dispatch( new CrudEntityRemovedEvent( $instance ) );
+
 		$em->flush();
 
 		return $this->json( [], 204 );
@@ -360,7 +374,7 @@ class CrudController extends AbstractController
 	}
 
 	/**
-	 * @Route("/details/{entity}/{id}", name="crud_details", methods={"GET"})
+	 * @Route("/crud/details/{entity}/{id}", name="crud_details", methods={"GET"})
 	 */
 	public function recordDetails( ManagerRegistry $registry, Request $request, $entity, $id )
 	{
