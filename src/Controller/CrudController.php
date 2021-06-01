@@ -32,7 +32,7 @@ use Twig\Environment;
 class CrudController extends AbstractController
 {
 
-	private $translator, $router, $twig, $authorizationChecker, $passwordEncoder, $dispatcher;
+	protected $translator, $router, $twig, $authorizationChecker, $passwordEncoder, $dispatcher;
 
 	public function __construct(
 		TranslatorInterface $translator,
@@ -259,7 +259,7 @@ class CrudController extends AbstractController
 		], ( new Response( null, $stCode ) ) );
 	}
 
-	private function buildForm( $type, CrudOperationable $entity, $intention )
+	protected function buildForm( $type, CrudOperationable $entity, $intention )
 	{
 		$routeArgs = [ 'entity' => get_class( $entity ), 'type' => $type ];
 		$form      = $this->createForm( $type, $entity, [

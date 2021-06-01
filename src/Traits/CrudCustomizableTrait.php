@@ -2,7 +2,9 @@
 
 namespace Codyas\Toolbox\Traits;
 
+use Codyas\Toolbox\Event\ConfirmationMessageConfig;
 use Codyas\Toolbox\Model\CrudCustomizable;
+use Codyas\Toolbox\Model\OperationMessageConfig;
 use Symfony\Component\Templating\EngineInterface;
 
 trait CrudCustomizableTrait
@@ -83,6 +85,14 @@ trait CrudCustomizableTrait
 	public static function displayActionButtons() : bool
 	{
 		return true;
+	}
+
+	public static function getConfirmationMsgConfig(): OperationMessageConfig
+	{
+		return (new OperationMessageConfig())
+			->setOnRegistrationTitle('Success')
+			->setOnRegistrationBody('Record was processed')
+		;
 	}
 
 }

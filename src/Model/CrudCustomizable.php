@@ -34,4 +34,6 @@ interface CrudCustomizable
 	public static function displayRowNumber(): bool;
 
 	public static function displayActionButtons(): bool;
+
+	public static function getConfirmationMsgConfig(): OperationMessageConfig;
 }
