@@ -8,7 +8,6 @@ use Codyas\Toolbox\Constants;
 use Codyas\Toolbox\Event\CrudEntityCreatedEvent;
 use Codyas\Toolbox\Event\CrudEntityModifiedEvent;
 use Codyas\Toolbox\Event\CrudEntityRemovedEvent;
-use Codyas\Toolbox\Event\CrudRecordDeletedEvent;
 use Codyas\Toolbox\Exception\ClientInputException;
 use Codyas\Toolbox\Model\CrudCancelable;
 use Codyas\Toolbox\Model\CrudCustomizable;
@@ -22,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -32,7 +32,7 @@ use Twig\Environment;
 class CrudController extends AbstractController
 {
 
-	protected $translator, $router, $twig, $authorizationChecker, $passwordEncoder, $dispatcher;
+	protected $translator, $router, $twig, $authorizationChecker, $passwordEncoder, $dispatcher, $urlGenerator;
 
 	public function __construct(
 		TranslatorInterface $translator,
@@ -40,7 +40,8 @@ class CrudController extends AbstractController
 		Environment $environment,
 		AuthorizationCheckerInterface $authorizationChecker,
 		UserPasswordEncoderInterface $passwordEncoder,
-		EventDispatcherInterface $dispatcher
+		EventDispatcherInterface $dispatcher,
+		UrlGeneratorInterface $urlGenerator
 	) {
 		$this->translator           = $translator;
 		$this->router               = $router;
@@ -48,6 +49,7 @@ class CrudController extends AbstractController
 		$this->authorizationChecker = $authorizationChecker;
 		$this->passwordEncoder      = $passwordEncoder;
 		$this->dispatcher           = $dispatcher;
+		$this->urlGenerator         = $urlGenerator;
 	}
 
 	/**
@@ -249,6 +251,14 @@ class CrudController extends AbstractController
 
 				$this->dispatcher->dispatch( new CrudEntityCreatedEvent( $instance ) );
 
+				if ( $instance->isTurboEnabled() )
+				{
+					return $this->redirectToRoute( 'crud_edit', [
+						'entity' => $entity,
+						'id'     => $instance->getId()
+					], Response::HTTP_SEE_OTHER );
+				}
+
 				return $this->json( [], 201 );
 			}
 		}
@@ -309,6 +319,11 @@ class CrudController extends AbstractController
 				$em->flush();
 
 				$this->dispatcher->dispatch( new CrudEntityModifiedEvent( $instance ) );
+
+				if ( $instance->isTurboEnabled() )
+				{
+					return $this->redirect( $instance->turboNextActionUrl($this->urlGenerator), Response::HTTP_SEE_OTHER );
+				}
 
 				return $this->json( [], 200 );
 			}

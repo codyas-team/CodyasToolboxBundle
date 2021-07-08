@@ -4,6 +4,7 @@ namespace Codyas\Toolbox\Model;
 
 
 use Codyas\Toolbox\Traits\CrudCustomizableTrait;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
 interface CrudCustomizable
@@ -36,4 +37,8 @@ interface CrudCustomizable
 	public static function displayActionButtons(): bool;
 
 	public static function getConfirmationMsgConfig(): OperationMessageConfig;
+
+	public function isTurboEnabled(): bool;
+
+	public function turboNextActionUrl(UrlGeneratorInterface $urlGenerator): ?string;
 }
