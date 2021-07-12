@@ -108,7 +108,7 @@ trait CrudCustomizableTrait
 			->setOnRegistrationBody( 'Record was processed' );
 	}
 
-	public function isTurboEnabled()
+	public function isTurboEnabled() : bool
 	{
 		return false;
 	}
