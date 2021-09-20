@@ -5,6 +5,7 @@ namespace Codyas\Toolbox\Traits;
 use Codyas\Toolbox\Event\ConfirmationMessageConfig;
 use Codyas\Toolbox\Model\CrudCustomizable;
 use Codyas\Toolbox\Model\OperationMessageConfig;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Templating\EngineInterface;
 
@@ -130,6 +131,16 @@ trait CrudCustomizableTrait
 			->setOnRegistrationTitle('Success')
 			->setOnRegistrationBody('Record was processed')
 			;
+	}
+
+	public function isTurboEnabled() : bool
+	{
+		return false;
+	}
+
+	public function turboNextActionUrl( UrlGeneratorInterface $urlGenerator ): ?string
+	{
+		return null;
 	}
 
 }
