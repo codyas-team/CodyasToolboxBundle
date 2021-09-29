@@ -341,11 +341,11 @@ class CrudController extends AbstractController
 	public function removeRecord( Request $request, $entity, $id )
 	{
 		$this->isActionAllowed( $entity, 'remove' );
-		if ( $this->isCsrfTokenValid( Constants::CSRF_VALIDATION_CRUD_REMOVAL, $request->get( 'token' ) ) )
+		if ( ! $this->isCsrfTokenValid( Constants::CSRF_VALIDATION_CRUD_REMOVAL, $request->get( 'token' ) ) )
 		{
 			throw new AccessDeniedHttpException();
 		}
-		$em       = $this->getDoctrine();
+		$em       = $this->getDoctrine()->getManager();
 		$instance = $em->getRepository( $entity )->find( $id );
 		if ( ! $instance )
 		{
