@@ -46,7 +46,7 @@
                     </a>
                 {% endif %}
                 &nbsp;
-                {% if is_granted(_call(class, 'getPermission', ['create']))%}
+                {% if not _call(class, 'isReadOnly', []) and is_granted(_call(class, 'getPermission', ['create']))%}
                     <button
                             type="button"
                             class="btn btn-brand btn-elevate btn-icon-sm btn-new-record"

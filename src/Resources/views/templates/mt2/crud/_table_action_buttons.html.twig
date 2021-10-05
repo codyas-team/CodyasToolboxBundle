@@ -6,7 +6,7 @@
                 title="{{ 'app.edit' | trans }}"
                 data-load-url="{{ path('crud_edit', {'id' : record.id,'entity':entity}) }}"
         >
-            <i class="la la-edit"></i>
+            {% include '@CodyasToolbox/templates/mt2/icons/edit.html.twig' with {'extraClass' : 'svg-icon-3 svg-icon-muted'} %}
         </button>
     {% endif %}
     {% if is_granted(_call(entity, 'getPermission', 'remove'))%}
@@ -20,7 +20,7 @@
                 data-token="{{ csrf_token(constant('Codyas\\Toolbox\\Constants::CSRF_VALIDATION_CRUD_REMOVAL')) }}"
                 data-action-url="{{ path('crud_remove', {'id' : record.id, 'entity':entity}) }}"
         >
-            <i class="la la-trash text-danger"></i>
+            {% include '@CodyasToolbox/templates/mt2/icons/trash.html.twig' with {'extraClass' : 'svg-icon-3 svg-icon-danger'} %}
         </button>
     {% endif %}
 </div>
