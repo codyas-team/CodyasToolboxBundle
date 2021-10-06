@@ -43,6 +43,7 @@ class CodyasExtension extends AbstractExtension
 			new TwigFunction( 'get_record', [ $this, 'getRecord' ] ),
 			new TwigFunction( '_call', [ $this, 'callStaticFunction' ] ),
 			new TwigFunction( 'codyas_tb_config', [ $this, 'getConfig' ] ),
+			new TwigFunction( 'codyas_mt2_modules', [ $this, 'getMT2Modules' ] ),
 
 		];
 	}
@@ -136,10 +137,14 @@ class CodyasExtension extends AbstractExtension
 		return sprintf( 'https://recargas.cubaimagen.net%s', $resource );
 	}
 
-	public function getConfig( $configKey )
+	public function getConfig( $configKey, $silent = false )
 	{
 		if ( ! array_key_exists( 'templating', $this->bundleConfig ) || ! $this->bundleConfig['templating'] )
 		{
+			if ( $silent )
+			{
+				return null;
+			}
 			throw new ConfigurationException( "Templating options are not defined." );
 		}
 
@@ -149,6 +154,32 @@ class CodyasExtension extends AbstractExtension
 			return $templatingOptions[ $configKey ];
 		}
 
+		if ( $silent )
+		{
+			return null;
+		}
 		throw new ConfigurationException( "Unable to get a valid configuration for request key {$configKey}" );
+	}
+
+	public function getMT2Modules() : array
+	{
+		return [
+			'activities' => [
+				'enabled' => false
+			],
+			'notifications' => [
+				'enabled' => false
+			],
+			'chat' => [
+				'enabled' => false
+			],
+			'profile' => [
+				'enabled' => true,
+				'header_template' => '@CodyasToolbox/templates/mt2/partials/_profile_dropdown.html.twig'
+			],
+			'quick_links' => [
+				'enabled' => false,
+			],
+		];
 	}
 }
