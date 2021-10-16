@@ -111,7 +111,10 @@
                 </div>
             {% endblock %}
 
-            {% include '@CodyasToolbox/templates/mt2/partials/_footer.html.twig' %}
+            {% block footer %}
+                {% include '@CodyasToolbox/templates/mt2/partials/_footer.html.twig' %}
+            {% endblock %}
+
         </div>
         <!--end::Wrapper-->
     </div>
