@@ -134,7 +134,10 @@
                 <!-- end:: Content -->
             </div>
 
-            {% include '@CodyasToolbox/metronic/mt3/partial/_footer.html.twig' %}
+            {% block footer %}
+                {% include '@CodyasToolbox/metronic/mt3/partial/_footer.html.twig' %}
+            {% endblock %}
+
         </div>
     </div>
 </div>
