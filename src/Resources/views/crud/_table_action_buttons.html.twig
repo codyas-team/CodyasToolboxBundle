@@ -1,10 +1,11 @@
+{% set entityIdentifier = _call(entity, 'getEntityIdentifier', []) %}
 <div class="btn-group text-center">
     {% if is_granted(_call(entity, 'getPermission', 'edit'))%}
         <button
                 class="btn btn-sm btn-clean btn-icon btn-icon-md edit-record-btn"
                 data-toggle="tooltip"
                 title="{{ 'app.edit' | trans }}"
-                data-load-url="{{ path('crud_edit', {'id' : record.id,'entity':entity}) }}"
+                data-load-url="{{ path('crud_edit', {'id' : record.id,'entity':entityIdentifier}) }}"
         >
             <i class="la la-edit"></i>
         </button>
@@ -18,7 +19,7 @@
                 data-confirmation-msg-btn-ok="{{ 'app.ok' | trans }}"
                 title="{{ 'app.delete' | trans }}"
                 data-token="{{ csrf_token(constant('Codyas\\Toolbox\\Constants::CSRF_VALIDATION_CRUD_REMOVAL')) }}"
-                data-action-url="{{ path('crud_remove', {'id' : record.id, 'entity':entity}) }}"
+                data-action-url="{{ path('crud_remove', {'id' : record.id, 'entity':entityIdentifier}) }}"
         >
             <i class="la la-trash text-danger"></i>
         </button>

@@ -41,4 +41,8 @@ interface CrudCustomizable
 	public function isTurboEnabled(): bool;
 
 	public function turboNextActionUrl(UrlGeneratorInterface $urlGenerator): ?string;
+
+	public static function getEntityIdentifier() : string ;
+
+	public static function hasCustomIdentifier(): bool ;
 }

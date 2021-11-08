@@ -1,4 +1,4 @@
-<div class="modal fade modal-form">
+<div class="modal fade modal-form" id="{{ instanceId }}-form-modal">
     <div class="modal-dialog {{ modalWider is defined and modalWider ? 'modal-lg' : '' }}">
         <div class="modal-content">
             <div class="modal-header">
@@ -46,29 +46,3 @@
     </div>
 </div>
 
-{% if filterForm is defined and filterForm is not empty %}
-    <div class="modal fade modal-filter" >
-        <div class="modal-dialog {{ modalWider is defined and modalWider ? 'modal-lg' : '' }}">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="fa fa-edit"></i> {{ 'Filter' | trans  }} {{ label | trans({'%count%' : 2}) | lower }}
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span></button>
-                </div>
-                <div class="modal-body">
-                    {% include _call(class, 'getFilterFormTemplate',[]) %}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light btn-reset-filter" data-bs-dismiss="modal">
-                        <i class="fas fa-close"></i> {{ 'Cancel' | trans }}
-                    </button>
-                    <button type="button" class="btn btn-primary btn-apply-filter">
-                        <i class="fa fa-filter"></i> {{ 'Apply' | trans }}
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endif %}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--begin::Head-->
+<head><base href="../../../">
+    <title>{{ pageTitle }} | {{ codyas_tb_config('app_name') }}</title>
+    <meta name="description" content="{{ codyas_tb_config('app_description') }}" />
+    <meta name="keywords" content="{{ codyas_tb_config('app_keywords') }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{ codyas_tb_config('app_description') }}" />
+    <meta property="og:url" content="{{ path(codyas_tb_config('home_path')) }}" />
+    <meta property="og:site_name" content="{{ codyas_tb_config('app_name') }}" />
+{#    <link rel="shortcut icon" href="assets/media/logos/favicon.ico" />#}
+    <!--begin::Fonts-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+    <!--end::Fonts-->
+    <!--begin::Global Stylesheets Bundle(used by all pages)-->
+    <link href="{{ asset('bundles/codyastoolbox/templates/mt2/plugins/global/plugins.dark.bundle.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('bundles/codyastoolbox/templates/mt2/css/style.dark.bundle.css') }}" rel="stylesheet" type="text/css"/>
+    <!--end::Global Stylesheets Bundle-->
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+<body id="kt_body" class="bg-body">
+<!--begin::Main-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Authentication - Sign-in -->
+    <div class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed" style="background-image: url(assets/media/illustrations/sigma-1/14.png">
+        <!--begin::Content-->
+        <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
+            {% block content %}
+
+            {% endblock %}
+
+        </div>
+        <!--end::Content-->
+        <!--begin::Footer-->
+        <div class="d-flex flex-center flex-column-auto p-10">
+            <!--begin::Links-->
+            <div class="d-flex align-items-center fw-bold fs-6">
+                <a href="https://keenthemes.com" class="text-muted text-hover-primary px-2">About</a>
+                <a href="mailto:support@keenthemes.com" class="text-muted text-hover-primary px-2">Contact</a>
+                <a href="https://1.envato.market/EA4JP" class="text-muted text-hover-primary px-2">Contact Us</a>
+            </div>
+            <!--end::Links-->
+        </div>
+        <!--end::Footer-->
+    </div>
+    <!--end::Authentication - Sign-in-->
+</div>
+<!--end::Main-->
+<script>var hostUrl = "assets/";</script>
+<!--begin::Javascript-->
+<!--begin::Global Javascript Bundle(used by all pages)-->
+<script src="{{ asset('bundles/codyastoolbox/templates/mt2/plugins/global/plugins.dark.bundle.js') }}"></script>
+<script src="{{ asset('bundles/codyastoolbox/templates/mt2/js/scripts.bundle.js') }}"></script>
+<!--end::Global Javascript Bundle-->
+<!--end::Javascript-->
+</body>
+<!--end::Body-->
+</html>

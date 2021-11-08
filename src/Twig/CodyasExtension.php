@@ -27,6 +27,7 @@ class CodyasExtension extends AbstractExtension
 			new TwigFilter( 'web_path', [ $this, 'getWebDirectoryPath' ] ),
 			new TwigFilter( 'should_highlight', [ $this, 'shouldHighlightChange' ] ),
 			new TwigFilter( 'canonicalize', [ $this, 'canonicalize' ] ),
+			new TwigFilter( 'base64_encode', [ $this, 'base64Encode' ] ),
 			new TwigFilter( 'get_url', [ $this, 'getAppDomain' ], [ 'is_safe' => [ 'html' ] ] ),
 		];
 	}
@@ -181,5 +182,10 @@ class CodyasExtension extends AbstractExtension
 				'enabled' => false,
 			],
 		];
+	}
+
+	public function base64Encode( $unencoded )
+	{
+		return base64_encode($unencoded);
 	}
 }

@@ -1,0 +1,70 @@
+{% if filterForm is defined and filterForm %}
+    {% set drawerId = instanceId ~ '-filter-drawer' %}
+    <div
+            id="{{ drawerId }}"
+            class="drawer-filter bg-dark"
+            data-kt-drawer="true"
+            data-kt-drawer-activate="true"
+            data-kt-drawer-toggle="#{{ btnOpenFilterId }}"
+            data-kt-drawer-close="#{{ drawerId }}-close"
+            data-kt-drawer-width="{{ filterDrawerWidth is defined and filterDrawerWidth ? filterDrawerWidth : '40%' }}"
+    >
+        <div class="card w-100 rounded-0">
+            <!--begin::Card header-->
+            <div class="card-header pe-5">
+                <!--begin::Title-->
+                <h3 class="card-title">
+                    <span class="svg-icon svg-icon-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M19.0759 3H4.72777C3.95892 3 3.47768 3.83148 3.86067 4.49814L8.56967 12.6949C9.17923 13.7559 9.5 14.9582 9.5 16.1819V19.5072C9.5 20.2189 10.2223 20.7028 10.8805 20.432L13.8805 19.1977C14.2553 19.0435 14.5 18.6783 14.5 18.273V13.8372C14.5 12.8089 14.8171 11.8056 15.408 10.964L19.8943 4.57465C20.3596 3.912 19.8856 3 19.0759 3Z"
+                                    fill="black"/>
+                        </svg>
+                    </span>
+                    {{ ('Filter ' ~ (label | lower)) | trans }}
+                </h3>
+                <!--end::Title-->
+                <!--begin::Card toolbar-->
+                <div class="card-toolbar">
+                    <!--begin::Close-->
+                    <div class="btn btn-sm btn-icon btn-active-light-primary" id="{{ drawerId }}-close">
+                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                        <span class="svg-icon svg-icon-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" viewBox="0 0 24 24" fill="none">
+                                <rect opacity="0.5" x="6" y="17.3137" width="16"
+                                        height="2" rx="1"
+                                        transform="rotate(-45 6 17.3137)"
+                                        fill="black"></rect>
+                                <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                        transform="rotate(45 7.41422 6)"
+                                        fill="black"></rect>
+                            </svg>
+                        </span>
+                        <!--end::Svg Icon-->
+                    </div>
+                    <!--end::Close-->
+                </div>
+                <!--end::Card toolbar-->
+            </div>
+            <!--end::Card header-->
+            <!--begin::Card body-->
+            <div class="card-body hover-scroll-overlay-y">
+                {% include _call(class, 'getFilterFormTemplate',[]) %}
+            </div>
+            <div class="card-footer text-end">
+                <button data-kt-drawer-dismiss="true"
+                        type="button"
+                        style="margin-right: 15px;"
+                        class="btn btn-light btn-reset-filter"
+                        data-bs-dismiss="modal">
+                    <i class="fas fa-close"></i> {{ 'Cancel' | trans }}
+                </button>
+                <button type="button" class="btn btn-primary btn-apply-filter">
+                    <i class="fa fa-filter"></i> {{ 'Apply' | trans }}
+                </button>
+            </div>
+            <!--end::Card body-->
+        </div>
+
+    </div>
+{% endif %}

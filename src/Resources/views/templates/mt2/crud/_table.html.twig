@@ -1,5 +1,5 @@
 {% import _self as self %}
-
+{% set entityIdentifier = _call(class, 'getEntityIdentifier', []) %}
 <div class="container-dt ">
     <table
             id="cdt-{{ random(1, 1000) }}"
@@ -9,7 +9,7 @@
             data-ordering-default="{{ (orderingDefault is defined and orderingDefault) ? (orderingDefault | json_encode) : 'null' }}"
             data-ordering-columns="{{ orderingColumns is defined ? (orderingColumns | json_encode) : '[]' }}"
             class="align-middle table-row-dashed fs-6 gy-5 table table-striped table-bordered crud-table table-hover dataTables dtr-inline {{ tableClass is defined ? tableClass : '' }}"
-            data-source="{{ path('crud_fetch', {'entity' : class }) }}"
+            data-source="{{ path('crud_fetch', {'entity' : entityIdentifier }) }}"
     >
         <thead>
         {% if api is defined and api == 2 %}

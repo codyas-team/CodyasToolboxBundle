@@ -143,4 +143,14 @@ trait CrudCustomizableTrait
 		return null;
 	}
 
+	public static function getEntityIdentifier() : string
+	{
+		return self::class;
+	}
+
+	public static function hasCustomIdentifier() : bool
+	{
+		return false;
+	}
+
 }
