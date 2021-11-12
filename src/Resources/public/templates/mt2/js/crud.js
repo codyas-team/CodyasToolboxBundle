@@ -1,3 +1,195 @@
+const App = {
+    initComponents: function ($scope) {
+        $scope = $scope ? $scope : $('body');
+        App.initDatepicker($scope);
+        App.initDateTimePicker($scope);
+        App.initDropdown($scope);
+        App.initTooltips($scope);
+    },
+
+    initDatepicker: function ($scope) {
+        $scope = $scope || $('body');
+        let _this = this;
+        const defaultFormat = 'M/d/Y';
+        $scope.find('.widget-datepicker').each(function (index) {
+            let changes = $(this).data('dpDefines');
+            let definedBy = $(this).data('dpDefined');
+            let format = $(this).data('dpFormat');
+            format = format ? format : defaultFormat;
+            if (changes !== undefined) {
+                $(this).on('change', function () {
+                    let $changes = $(`#${changes}` );
+                    $changes.val('').trigger('change');
+                    const fp = document.querySelector(`#${changes}`)._flatpickr;
+                    fp.set('minDate', _this.getStartDateForDefiner($(this)));
+                });
+            }
+
+            if ($(this).hasClass('future-disabled')) {
+                $(this).flatpickr({
+                    dateFormat: format,
+                    endDate: new Date()
+                })
+            } else {
+                let startDate = definedBy !== undefined ? _this.getStartDateForDefiner($('#' + definedBy)) : null;
+                $(this).flatpickr({
+                    dateFormat: format,
+                    startDate: startDate
+                })
+            }
+
+        });
+    },
+    initDateTimePicker: function ($scope) {
+        let _this = this;
+        $scope = $scope || $('body');
+        $scope.find('.widget-datetimepicker').each(function (index) {
+            let changes = $(this).data('dp-defines');
+            let definedBy = $(this).data('dp-defined');
+
+            if (changes !== undefined) {
+                $(this).on('change', function () {
+                    let $changes = $('#' + changes);
+                    $changes.val('').trigger('change');
+                    $changes.datetimepicker('setStartDate', _this.getStartDateTimeForDefiner($(this)));
+                });
+            }
+            let startDate, endDate = null;
+            if ($(this).hasClass('future-disabled')) {
+                endDate = new Date();
+            } else if ($(this).hasClass('past-disabled')) {
+                startDate = new Date();
+            } else {
+                let $definedBy = $('#' + definedBy);
+                startDate = definedBy !== undefined ? _this.getStartDateTimeForDefiner($definedBy) : null;
+            }
+            $(this).datetimepicker({
+                format: 'M/dd/yyyy hh:ii',
+                endDate: endDate,
+                startDate: startDate
+            })
+
+        });
+    },
+
+    getStartDateForDefiner: function (definerCmp) {
+        let momentFormat = definerCmp.data('dpMomentFormat');
+        momentFormat = momentFormat ? momentFormat : 'MMM/DD/YYYY';
+        let checkInDate = moment(definerCmp.val(), momentFormat);
+        checkInDate.add('1', 'days');
+        return checkInDate.format(momentFormat);
+    },
+
+    getStartDateTimeForDefiner: function (definerCmp) {
+        let momentFormat = definerCmp.data('dpMomentFormat');
+        momentFormat = momentFormat ? momentFormat : 'MMM/DD/YYYY hh:ii';
+        let checkInDate = moment(definerCmp.val(), momentFormat);
+        checkInDate.add('1', 'hours');
+        return checkInDate.format(momentFormat);
+    },
+
+    initDropdown: function ($scope) {
+        $scope = $scope || $('body');
+        $scope.find('.form-select').each(function (i) {
+            $(this).select2({
+                width: '100%',
+                clear: true,
+                placeholder: $(this).attr('placeholder'),
+                disabled: $(this).attr('readonly') === 'readonly',
+                parent: $scope
+            });
+        });
+    },
+
+    initTooltips: function ($scope) {
+        $scope = $scope || $('body');
+    },
+
+    appendForm: function ($triggerEl, cb, protoName, list) {
+        list = list ? list : $($triggerEl.attr('data-list'));
+        let counter = list.data('widget-counter') | list.children().length;
+        let widgetTags = list.attr('data-widget-tags');
+        protoName = protoName ? protoName : '__name__';
+        if (!counter) {
+            counter = list.children().length;
+        }
+        let newWidget = $triggerEl.data('prototype');
+        let re = new RegExp(protoName, "g");
+        newWidget = newWidget.replace(re, counter);
+        widgetTags = widgetTags.replace(re, counter);
+        counter++;
+        list.data('widget-counter', counter);
+        let newElem = $(widgetTags).html(newWidget);
+        let counterClass = 'odd';
+        if (counter % 2 === 0) {
+            counterClass = 'even';
+        }
+        newElem.addClass(counterClass).addClass('d-none');
+        if ($triggerEl.data('policy') === 'insert-before') {
+            $triggerEl.parents('li').before(newElem)
+        } else {
+            newElem.appendTo(list);
+            newElem.removeClass('d-none')
+        }
+        cb($(newElem))
+    },
+
+    initValidation: function ($form, handlerCb, successCb, failureCb) {
+        let _this = this;
+        $form.validate({
+            ignore: ":not(:visible),:disabled",
+            errorElement: "span",
+            errorPlacement: function (error, element) {
+                error.addClass("mt-2 mb-2 text-danger validation-error");
+                if (element.prop("type") === "checkbox") {
+                    error.insertAfter(element.parents(".checkbox"));
+                } else if (element.prop("type") === "radio") {
+                    error.insertAfter(element.parents(".icheck"));
+                } else if (element.is('select') && (element.hasClass('select2') || element.hasClass('select2-ph'))) {
+                    error.insertAfter(element.siblings(".select2"));
+                } else if (element.is('textarea') && element.hasClass('lc-ckeditor')) {
+                    error.insertAfter(element.siblings(".ck-editor"));
+                } else if (element.is('input') && element.parents('.input-group').length > 0) {
+                    error.insertAfter(element.parents('.input-group'));
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass("is-invalid").removeClass("is-valid");
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).addClass("is-valid").removeClass("is-invalid");
+            },
+            submitHandler: function (form) {
+                if (handlerCb) {
+                    handlerCb(form)
+                } else {
+                    $.LoadingOverlay("show");
+                    $.ajax(
+                        {
+                            url: $(form).prop('action'),
+                            method: 'post',
+                            data: $(form).serialize(),
+                            success: function (res) {
+                                successCb(res);
+                            },
+                            error: function (res) {
+                                failureCb(res);
+                            },
+                            complete: function () {
+                                $.LoadingOverlay("hide");
+                            }
+                        }
+                    );
+                }
+                return false;
+            }
+
+        });
+    },
+}
+
 function CrudManager($scope, config) {
     this.$scope = $scope;
     if ($scope.data('crudDecoupled') === true) {
@@ -56,7 +248,7 @@ CrudManager.prototype = {
         $('.modal-body', _this.$formModal).load(url, function (res, statusTxt) {
             _this.toggleBodyBlock();
             if (statusTxt === "success") {
-                _this.initComponents(_this.$formModal.find('.modal-body'));
+                App.initComponents(_this.$formModal.find('.modal-body'));
                 _this.$formModal.trigger('api_form_modal_loaded');
                 _this.$formModal.modal('show');
             } else {
@@ -79,7 +271,7 @@ CrudManager.prototype = {
         _this.toggleBodyBlock()
         $('.modal-body', $modal).load(url, function (res) {
             _this.toggleBodyBlock()
-            _this.initComponents($modal.find('.modal-body'));
+            App.initComponents($modal.find('.modal-body'));
             $modal.trigger('api_form_modal_loaded');
             $modal.modal('show');
         });
@@ -174,7 +366,7 @@ CrudManager.prototype = {
                             },
                             error: function (res) {
                                 $('.modal-body', _this.$formModal).html(res.responseText);
-                                _this.initComponents(_this.$formModal.find('.modal-body'));
+                                App.initComponents(_this.$formModal.find('.modal-body'));
                                 _this.$formModal.trigger('api_form_modal_loaded');
                             },
                             complete: function () {
@@ -207,13 +399,13 @@ CrudManager.prototype = {
 
         _this.$formModal.delegate(_this.appendBtn, 'click', function (e) {
             _this.appendForm($(this), function ($el) {
-                _this.initComponents($el);
+                App.initComponents($el);
                 $el.trigger('section-appended');
             }, $(this).data('prototypeName'));
         });
         _this.$formModal.delegate(_this.relativeAppendBtn, 'click', function (e) {
             _this.appendForm($(this), function ($el) {
-                _this.initComponents($el);
+                App.initComponents($el);
             }, $(this).data('prototype-name'), $(this).closest('.collection-container').find('.collection-list'));
         });
         _this.$formModal.delegate(_this.collectionRemoveBtn, 'click', function (e) {
@@ -297,6 +489,10 @@ CrudManager.prototype = {
                 'zeroRecords': _this.$table.data('empty-table-msg') ? _this.$table.data('empty-table-msg') : 'No data available in table'
             },
             autoWidth: false,
+            // columnDefs: [
+            //     {"orderable": false, "targets": 0},
+            //     {"orderable": false, "targets": orderingColumns.length}
+            // ],
             ajax: {
                 url: _this.$table.data('source'),
                 method: 'GET',
@@ -322,6 +518,10 @@ CrudManager.prototype = {
                     return filterData;
                 },
                 dataSrc: function (response) {
+                    // loadUrls = [];
+                    // response.data.forEach(function (r) {
+                    //     loadUrls.push(r.pop());
+                    // });
                     return response.data;
                 }
             },
@@ -329,6 +529,7 @@ CrudManager.prototype = {
             order: [[0]],
             processing: true,
             serverSide: true,
+            // scrollX: true,
             drawCallback: function (oSettings) {
                 _this.$table.find('[data-toggle="tooltip"]').tooltip();
             },
@@ -357,9 +558,10 @@ CrudManager.prototype = {
         _this.$clientDataContainer.LoadingOverlay("show");
         $('.modal-body', _this.$formModal).load(url, function (res) {
             _this.$clientDataContainer.LoadingOverlay("hide");
-            _this.initComponents(_this.$formModal.find('.modal-body'));
+            App.initComponents(_this.$formModal.find('.modal-body'));
             _this.$formModal.trigger('api_form_modal_loaded');
             _this.$formModal.modal('show');
+            // _this.disableClientForm();
         });
     },
 
@@ -430,197 +632,16 @@ CrudManager.prototype = {
         }
     },
 
-    initComponents: function ($scope) {
-        $scope = $scope ? $scope : $('body');
-        this.initDatepicker($scope);
-        this.initDateTimePicker($scope);
-        this.initDropdown($scope);
-        this.initTooltips($scope);
-    },
-
-    initDatepicker: function ($scope) {
-        $scope = $scope || $('body');
-        let _this = this;
-        $scope.find('.widget-datepicker').each(function (index) {
-            let changes = $(this).data('dp-defines');
-            let definedBy = $(this).data('dp-defined');
-
-            if (changes !== undefined) {
-                $(this).on('change', function () {
-                    let $changes = $('#' + changes);
-                    $changes.val('').trigger('change');
-                    $changes.datepicker('setStartDate', _this.getStartDateForDefiner($(this)));
-                });
-            }
-
-            if ($(this).hasClass('future-disabled')) {
-                $(this).datepicker({
-                    format: 'M/dd/yyyy',
-                    endDate: new Date()
-                })
-            } else {
-                let startDate = definedBy !== undefined ? _this.getStartDateForDefiner($('#' + definedBy)) : null;
-                $(this).datepicker({
-                    format: 'M/dd/yyyy',
-                    startDate: startDate
-                })
-            }
-
-        });
-    },
-    initDateTimePicker: function ($scope) {
-        let _this = this;
-        $scope = $scope || $('body');
-        $scope.find('.widget-datetimepicker').each(function (index) {
-            let changes = $(this).data('dp-defines');
-            let definedBy = $(this).data('dp-defined');
-
-            if (changes !== undefined) {
-                $(this).on('change', function () {
-                    let $changes = $('#' + changes);
-                    $changes.val('').trigger('change');
-                    $changes.datetimepicker('setStartDate', _this.getStartDateTimeForDefiner($(this)));
-                });
-            }
-            let startDate, endDate = null;
-            if ($(this).hasClass('future-disabled')) {
-                endDate = new Date();
-            } else if ($(this).hasClass('past-disabled')) {
-                startDate = new Date();
-            } else {
-                let $definedBy = $('#' + definedBy);
-                startDate = definedBy !== undefined ? _this.getStartDateTimeForDefiner($definedBy) : null;
-            }
-            $(this).datetimepicker({
-                format: 'M/dd/yyyy hh:ii',
-                endDate: endDate,
-                startDate: startDate
-            })
-
-        });
-    },
-
-    getStartDateForDefiner: function (definerCmp) {
-        let checkInDate = moment(definerCmp.val(), 'MMM/DD/YYYY');
-        checkInDate.add('1', 'days');
-        return checkInDate.format('MMM/DD/YYYY');
-    },
-
-    getStartDateTimeForDefiner: function (definerCmp) {
-        let checkInDate = moment(definerCmp.val(), 'MMM/DD/YYYY hh:ii');
-        checkInDate.add('1', 'hours');
-        return checkInDate.format('MMM/DD/YYYY hh:ii');
-    },
-
-    initDropdown: function ($scope) {
-        $scope = $scope || $('body');
-        $scope.find('.form-select').each(function (i) {
-            $(this).select2({
-                width: '100%',
-                clear: true,
-                placeholder: $(this).attr('placeholder'),
-                disabled: $(this).attr('readonly') === 'readonly',
-                parent: $scope
-            });
-        });
-    },
-
-    initTooltips: function ($scope) {
-        $scope = $scope || $('body');
-        $('[data-toggle="tooltip"]', $scope).tooltip();
-        $('.do-tooltip', $scope).tooltip();
-    },
-
-    appendForm: function ($triggerEl, cb, protoName, list) {
-        list = list ? list : $($triggerEl.attr('data-list'));
-        let counter = list.data('widget-counter') | list.children().length;
-        let widgetTags = list.attr('data-widget-tags');
-        protoName = protoName ? protoName : '__name__';
-        if (!counter) {
-            counter = list.children().length;
-        }
-        let newWidget = $triggerEl.data('prototype');
-        let re = new RegExp(protoName, "g");
-        newWidget = newWidget.replace(re, counter);
-        widgetTags = widgetTags.replace(re, counter);
-        counter++;
-        list.data('widget-counter', counter);
-        let newElem = $(widgetTags).html(newWidget);
-        let counterClass = 'odd';
-        if (counter % 2 === 0) {
-            counterClass = 'even';
-        }
-        newElem.addClass(counterClass).addClass('d-none');
-        if ($triggerEl.data('policy') === 'insert-before') {
-            $triggerEl.parents('li').before(newElem)
-        } else {
-            newElem.appendTo(list);
-            newElem.removeClass('d-none')
-        }
-        cb($(newElem))
-    },
-
-    initValidation: function ($form, handlerCb, successCb, failureCb) {
-        let _this = this;
-        $form.validate({
-            ignore: ":not(:visible),:disabled",
-            errorElement: "span",
-            errorPlacement: function (error, element) {
-                error.addClass("mt-2 mb-2 text-danger validation-error");
-                if (element.prop("type") === "checkbox") {
-                    error.insertAfter(element.parents(".checkbox"));
-                } else if (element.prop("type") === "radio") {
-                    error.insertAfter(element.parents(".icheck"));
-                } else if (element.is('select') && (element.hasClass('select2') || element.hasClass('select2-ph'))) {
-                    error.insertAfter(element.siblings(".select2"));
-                } else if (element.is('textarea') && element.hasClass('lc-ckeditor')) {
-                    error.insertAfter(element.siblings(".ck-editor"));
-                } else if (element.is('input') && element.parents('.input-group').length > 0) {
-                    error.insertAfter(element.parents('.input-group'));
-                } else {
-                    error.insertAfter(element);
-                }
-            },
-            highlight: function (element, errorClass, validClass) {
-                $(element).addClass("is-invalid").removeClass("is-valid");
-            },
-            unhighlight: function (element, errorClass, validClass) {
-                $(element).addClass("is-valid").removeClass("is-invalid");
-            },
-            submitHandler: function (form) {
-                if (handlerCb) {
-                    handlerCb(form)
-                } else {
-                    $.LoadingOverlay("show");
-                    $.ajax(
-                        {
-                            url: $(form).prop('action'),
-                            method: 'post',
-                            data: $(form).serialize(),
-                            success: function (res) {
-                                successCb(res);
-                            },
-                            error: function (res) {
-                                failureCb(res);
-                            },
-                            complete: function () {
-                                $.LoadingOverlay("hide");
-                            }
-                        }
-                    );
-                }
-                return false;
-            }
-
-        });
-    },
 
 };
 
 (function () {
     $('.crud-scope').each(function () {
         (new CrudManager($(this))).init();
-    })
+    });
+    App.initComponents();
 })(jQuery, window, document);
 
-module.exports = CrudManager;
+// module.exports = CrudManager;
+
+
