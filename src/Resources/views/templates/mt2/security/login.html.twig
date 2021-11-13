@@ -18,10 +18,12 @@
                 <!--begin::Title-->
                 <h1 class="text-dark mb-3">{{ ('Sign in to ' ~ codyas_tb_config('app_name')) | trans }}</h1>
                 <!--end::Title-->
-                <!--begin::Link-->
-                <div class="text-gray-400 fw-bold fs-4">{{ 'New here?' | trans }}
-                    <a href="#" class="link-primary fw-bolder">{{ 'Create an account' | trans }}</a></div>
-                <!--end::Link-->
+                {% if registerPath is defined and registerPath %}
+                    <!--begin::Link-->
+                    <div class="text-gray-400 fw-bold fs-4">{{ 'New here?' | trans }}
+                        <a href="{{ registerPath }}" class="link-primary fw-bolder">{{ 'Create an account' | trans }}</a></div>
+                    <!--end::Link-->
+                {% endif %}
             </div>
             <!--begin::Heading-->
             {% if error %}
@@ -46,11 +48,13 @@
                 <!--begin::Input-->
                 <input placeholder="{{ 'Password' | trans }}" type="password" name="password" id="inputPassword" autocomplete="off" class="form-control form-control-lg form-control-solid" required>
                 <!--end::Input-->
-                <div class="d-flex flex-stack mt-3 text-right justify-content-end">
-                    <!--begin::Link-->
-                    <a href="#" class="link-primary fs-6 fw-bolder">{{ 'Forgot password?' | trans }}</a>
-                    <!--end::Link-->
-                </div>
+                {% if forgotPasswordPath is defined and forgotPasswordPath %}
+                    <div class="d-flex flex-stack mt-3 text-right justify-content-end">
+                        <!--begin::Link-->
+                        <a href="{{ forgotPasswordPath }}" class="link-primary fs-6 fw-bolder">{{ 'Forgot password?' | trans }}</a>
+                        <!--end::Link-->
+                    </div>
+                {% endif %}
             </div>
             <!--end::Input group-->
             <!--begin::Actions-->
@@ -60,21 +64,24 @@
                     <span class="indicator-label">{{ 'Sign in' | trans }}</span>
                 </button>
                 <!--end::Submit button-->
-                <!--begin::Separator-->
-                <div class="text-center text-muted text-uppercase fw-bolder mb-5">or</div>
-                <!--end::Separator-->
-                <!--begin::Google link-->
-                <a href="#" class="btn btn-flex flex-center btn-light btn-lg w-100 mb-5">
-                    <img alt="Logo" src="{{ asset('bundles/codyastoolbox/media/svg/brand-logos/google-icon.svg') }}" class="h-20px me-3" />Continue with Google</a>
-                <!--end::Google link-->
-                <!--begin::Google link-->
-                <a href="#" class="btn btn-flex flex-center btn-light btn-lg w-100 mb-5">
-                    <img alt="Logo" src="{{ asset('bundles/codyastoolbox/media/svg/brand-logos/facebook-4.svg') }}" class="h-20px me-3" />Continue with Facebook</a>
-                <!--end::Google link-->
-                <!--begin::Google link-->
-                <a href="#" class="btn btn-flex flex-center btn-light btn-lg w-100">
-                    <img alt="Logo" src="{{ asset('bundles/codyastoolbox/media/svg/brand-logos/apple-black.svg') }}" class="h-20px me-3" />Continue with Apple</a>
-                <!--end::Google link-->
+                {% block socialLoginButtons %}
+                    <!--begin::Separator-->
+                    <div class="text-center text-muted text-uppercase fw-bolder mb-5">or</div>
+                    <!--end::Separator-->
+                    <!--begin::Google link-->
+                    <a href="#" class="btn btn-flex flex-center btn-light btn-lg w-100 mb-5">
+                        <img alt="Logo" src="{{ asset('bundles/codyastoolbox/media/svg/brand-logos/google-icon.svg') }}" class="h-20px me-3" />Continue with Google</a>
+                    <!--end::Google link-->
+                    <!--begin::Google link-->
+                    <a href="#" class="btn btn-flex flex-center btn-light btn-lg w-100 mb-5">
+                        <img alt="Logo" src="{{ asset('bundles/codyastoolbox/media/svg/brand-logos/facebook-4.svg') }}" class="h-20px me-3" />Continue with Facebook</a>
+                    <!--end::Google link-->
+                    <!--begin::Google link-->
+                    <a href="#" class="btn btn-flex flex-center btn-light btn-lg w-100">
+                        <img alt="Logo" src="{{ asset('bundles/codyastoolbox/media/svg/brand-logos/apple-black.svg') }}" class="h-20px me-3" />Continue with Apple</a>
+                    <!--end::Google link-->
+                {% endblock %}
+
             </div>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
             <!--end::Actions-->
