@@ -18,7 +18,7 @@ const App = {
             format = format ? format : defaultFormat;
             if (changes !== undefined) {
                 $(this).on('change', function () {
-                    let $changes = $(`#${changes}` );
+                    let $changes = $(`#${changes}`);
                     $changes.val('').trigger('change');
                     const fp = document.querySelector(`#${changes}`)._flatpickr;
                     fp.set('minDate', _this.getStartDateForDefiner($(this)));
@@ -28,13 +28,13 @@ const App = {
             if ($(this).hasClass('future-disabled')) {
                 $(this).flatpickr({
                     dateFormat: format,
-                    endDate: new Date()
-                })
-            } else {
+                    maxDate: new Date()
+                });
+            } else  {
                 let startDate = definedBy !== undefined ? _this.getStartDateForDefiner($('#' + definedBy)) : null;
                 $(this).flatpickr({
                     dateFormat: format,
-                    startDate: startDate
+                    minDate: startDate ? new Date(startDate) : null
                 })
             }
 
