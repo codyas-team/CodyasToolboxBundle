@@ -357,7 +357,10 @@ class CrudController extends AbstractController
 		}
 		if ( $instance instanceof CrudCancelable )
 		{
-			$instance->setStatus( Constants::STATUS_CANCELED );
+			$instance
+				->setStatus( Constants::STATUS_CANCELED )
+				->delete()
+			;
 			$em->persist( $instance );
 		} else
 		{

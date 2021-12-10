@@ -14,110 +14,131 @@ trait CrudCustomizableTrait
 	/**
 	 * @Ignore()
 	 */
-	public function getFormTemplate(  ){
+	public function getFormTemplate()
+	{
 		return '@CodyasToolbox/crud/form.html.twig';
 	}
+
 	/**
 	 * @Ignore()
 	 */
-	public function getDetailsTemplate(  ){
+	public function getDetailsTemplate()
+	{
 		return '@CodyasToolbox/crud/details.html.twig';
 	}
+
 	/**
 	 * @Ignore()
 	 */
-	public static function permissions() {
+	public static function permissions()
+	{
 		return [
-			'view'      => 'ROLE_ADMIN',
-			'create'    => 'ROLE_ADMIN',
-			'edit'      => 'ROLE_ADMIN',
-			'remove'    => 'ROLE_ADMIN',
+			'view'   => 'ROLE_ADMIN',
+			'create' => 'ROLE_ADMIN',
+			'edit'   => 'ROLE_ADMIN',
+			'remove' => 'ROLE_ADMIN',
 		];
 	}
 
 	/**
 	 * @Ignore()
 	 */
-	public static function getPermission($accessLevel) {
-		if(is_array($accessLevel) && count($accessLevel) === 1){
+	public static function getPermission( $accessLevel )
+	{
+		if ( is_array( $accessLevel ) && count( $accessLevel ) === 1 )
+		{
 			$accessLevel = $accessLevel[0];
 		}
 		$permissions = self::permissions();
-		if(!array_key_exists($accessLevel, $permissions)){
-			throw new \RuntimeException('Access level not configured!');
+		if ( ! array_key_exists( $accessLevel, $permissions ) )
+		{
+			throw new \RuntimeException( 'Access level not configured!' );
 		}
-		return $permissions[$accessLevel];
+
+		return $permissions[ $accessLevel ];
 	}
 
 	/**
 	 * @Ignore()
 	 */
-	public static function getFilterFormType() {
+	public static function getFilterFormType()
+	{
 		return null;
 	}
 
 	/**
 	 * @Ignore()
 	 */
-	public static function getFilterFormTemplate() {
+	public static function getFilterFormTemplate()
+	{
 		return '@CodyasToolbox/crud/_filter_form.html.twig';
 	}
+
 	/**
 	 * @Ignore()
 	 */
-	public static function hasCustomFetchMethod() {
+	public static function hasCustomFetchMethod()
+	{
 		return false;
 	}
+
 	/**
 	 * @Ignore()
 	 */
-	public function hasDependenciesForRemoval(): array{
+	public function hasDependenciesForRemoval(): array
+	{
 		return [];
 	}
 
 	/**
 	 * @Ignore()
 	 */
-	public function getActionButtons(\Twig\Environment $twig, CrudCustomizable $item) : array {
+	public function getActionButtons( \Twig\Environment $twig, CrudCustomizable $item ): array
+	{
 		return [
-			$twig->render('@CodyasToolbox/crud/_table_action_buttons.html.twig',[
+			$twig->render( '@CodyasToolbox/crud/_table_action_buttons.html.twig', [
 				'record' => $item,
-				'entity' => get_class($item),
-			])
+				'entity' => get_class( $item ),
+			] )
 		];
 	}
 
 	/**
 	 * @Ignore()
 	 */
-	public function getPersistenceCallbacks() : array {
+	public function getPersistenceCallbacks(): array
+	{
 		return [];
 	}
+
 	/**
 	 * @Ignore()
 	 */
-	public function showTableIndex() : bool
+	public function showTableIndex(): bool
 	{
 		return true;
 	}
+
 	/**
 	 * @Ignore()
 	 */
-	public static function isReadOnly() : bool
+	public static function isReadOnly(): bool
 	{
 		return false;
 	}
+
 	/**
 	 * @Ignore()
 	 */
-	public static function displayRowNumber() : bool
+	public static function displayRowNumber(): bool
 	{
 		return true;
 	}
+
 	/**
 	 * @Ignore()
 	 */
-	public static function displayActionButtons() : bool
+	public static function displayActionButtons(): bool
 	{
 		return true;
 	}
@@ -127,13 +148,12 @@ trait CrudCustomizableTrait
 	 */
 	public static function getConfirmationMsgConfig(): OperationMessageConfig
 	{
-		return (new OperationMessageConfig())
-			->setOnRegistrationTitle('Success')
-			->setOnRegistrationBody('Record was processed')
-			;
+		return ( new OperationMessageConfig() )
+			->setOnRegistrationTitle( 'Success' )
+			->setOnRegistrationBody( 'Record was processed' );
 	}
 
-	public function isTurboEnabled() : bool
+	public function isTurboEnabled(): bool
 	{
 		return false;
 	}
@@ -143,14 +163,19 @@ trait CrudCustomizableTrait
 		return null;
 	}
 
-	public static function getEntityIdentifier() : string
+	public static function getEntityIdentifier(): string
 	{
 		return self::class;
 	}
 
-	public static function hasCustomIdentifier() : bool
+	public static function hasCustomIdentifier(): bool
 	{
 		return false;
+	}
+
+	public function delete()
+	{
+		$this->deletedAt = new \DateTime( 'now' );
 	}
 
 }
