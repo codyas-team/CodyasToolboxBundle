@@ -3,7 +3,9 @@
 namespace Codyas\Toolbox\Model;
 
 
-interface CrudCancelable {
+interface CrudCancelable
+{
 	public function setStatus( string $status );
-	public function delete( string $status ): void;
+
+	public function delete(): void;
 }
