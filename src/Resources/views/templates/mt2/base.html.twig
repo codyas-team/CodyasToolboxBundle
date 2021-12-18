@@ -41,7 +41,7 @@
         class="dark header-fixed header-tablet-and-mobile-fixed toolbar-enabled">
 <!--begin::Main-->
 <!--begin::Root-->
-<div class="d-flex flex-column flex-root">
+<div class="scroll d-flex flex-column flex-root">
     <!--begin::Page-->
     <div class="page d-flex flex-row flex-column-fluid {{ scope is defined ? scope : '' }}">
         <!--begin::Wrapper-->
@@ -144,7 +144,6 @@
 <!--begin::Page Vendors Javascript(used by this page)-->
 <!--end::Page Vendors Javascript-->
 <!--begin::Page Custom Javascript(used by this page)-->
-<script src="{{ asset('bundles/codyastoolbox/templates/mt2/js/custom/widgets.js') }}"></script>
 {% block javascripts %}
     {{ encore_entry_script_tags('codyas_ep') }}
 {% endblock %}

@@ -170,7 +170,9 @@ const App = {
                         {
                             url: $(form).prop('action'),
                             method: 'post',
-                            data: $(form).serialize(),
+                            data: new FormData(form),
+                            contentType: false,
+                            processData: false,
                             success: function (res) {
                                 successCb(res);
                             },
@@ -197,11 +199,13 @@ function CrudManager($scope, config) {
         this.$filterDrawer = $($scope.data('crudRefFilterFormDrawer'));
         this.$newRecordBtn = $($scope.data('crudRefNewRecordBtn'));
         this.$simpleFilter = $($scope.data('crudRefSimpleFilterControl'));
+        this.$detailsModal = $($scope.data('crudRefDetailsModal'));
     } else {
         this.$formModal = $scope.find('.modal-form');
         this.$filterDrawer = $scope.find('.modal-filter');
         this.$newRecordBtn = $scope.find('.btn-new-record');
         this.$simpleFilter = $scope.find('.simple-filter');
+        this.$detailsModal = $scope.find('.modal-details');
     }
     this.$formFilter = this.$filterDrawer.find('form');
     this.$btnSaveModal = this.$formModal.find('.btn-save');
@@ -224,6 +228,7 @@ CrudManager.prototype = {
     $simpleFilter: null,
     $btnSaveModal: null,
     $btnNextModal: null,
+    $detailsModal: null,
     $table: null,
     $formatExport: null,
     appendBtn: '.crud-append-btn',
@@ -357,7 +362,9 @@ CrudManager.prototype = {
                         {
                             url: $(form).prop('action'),
                             method: 'post',
-                            data: $(form).serialize(),
+                            data: new FormData(form),
+                            contentType: false,
+                            processData: false,
                             success: function (res) {
                                 _this.dt.ajax.reload();
                                 _this.$formModal.modal('hide');
