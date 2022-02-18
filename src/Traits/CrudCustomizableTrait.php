@@ -173,7 +173,7 @@ trait CrudCustomizableTrait
 		return false;
 	}
 
-	public function delete()
+	public function delete() : void
 	{
 		$this->deletedAt = new \DateTime( 'now' );
 	}
