@@ -102,15 +102,17 @@
     </div>
     <!--end::Wrapper-->
     <!--begin::Button-->
-    <button
-            class="btn btn-primary btn-new-record"
-            data-toggle="tooltip"
-            id="{{ instanceId }}-new-record"
-            title="{{ 'Create a new record' | trans }}"
-            data-load-url="{{ path('crud_new',{'entity':class}) }}">
-        {% include '@CodyasToolbox/templates/mt2/icons/plus.html.twig' with {'extraClass' : 'svg-icon-2'} %}
-        {{ 'New' | trans }}
-    </button>
+    {% if not _call(class, 'isReadOnly', []) and is_granted(_call(class, 'getPermission', ['create']))%}
+        <button
+                class="btn btn-primary btn-new-record"
+                data-toggle="tooltip"
+                id="{{ instanceId }}-new-record"
+                title="{{ 'Create a new record' | trans }}"
+                data-load-url="{{ path('crud_new',{'entity':class}) }}">
+            {% include '@CodyasToolbox/templates/mt2/icons/plus.html.twig' with {'extraClass' : 'svg-icon-2'} %}
+            {{ 'New' | trans }}
+        </button>
+    {% endif %}
     <!--end::Button-->
 {% endblock %}
 

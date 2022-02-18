@@ -4,6 +4,7 @@
     <table
             id="cdt-{{ random(1, 1000) }}"
             data-custom-dom="{{ tableDom is defined ? tableDom : '' }}"
+            data-page-length="{{ pageLength is defined ? pageLength : 25 }}"
             data-ordering-enabled="{{ (orderingEnabled is defined and orderingEnabled) ? 'true' : 'false' }}"
             data-summarize-columns="{{ (summarizeColumns is defined and summarizeColumns) ? (summarizeColumns | json_encode) : '' }}"
             data-ordering-default="{{ (orderingDefault is defined and orderingDefault) ? (orderingDefault | json_encode) : 'null' }}"
