@@ -25,7 +25,6 @@ class CodyasExtension extends AbstractExtension
 	{
 		return [
 			new TwigFilter( 'web_path', [ $this, 'getWebDirectoryPath' ] ),
-			new TwigFilter( 'should_highlight', [ $this, 'shouldHighlightChange' ] ),
 			new TwigFilter( 'canonicalize', [ $this, 'canonicalize' ] ),
 			new TwigFilter( 'base64_encode', [ $this, 'base64Encode' ] ),
 			new TwigFilter( 'get_url', [ $this, 'getAppDomain' ], [ 'is_safe' => [ 'html' ] ] ),
@@ -36,12 +35,10 @@ class CodyasExtension extends AbstractExtension
 	{
 		return [
 			new TwigFunction( 'get_menu', [ $this, 'getMenu' ] ),
-			new TwigFunction( 'get_record_logs', [ $this, 'getRecordLogs' ] ),
 			new TwigFunction( 'is_menu_active', [ $this, 'isMenuActive' ] ),
 			new TwigFunction( 'is_menu_parent_active', [ $this, 'isMenuParentActive' ] ),
 			new TwigFunction( 'instanceof', [ $this, 'isInstanceOf' ] ),
 			new TwigFunction( 'is_array', [ $this, 'isArray' ] ),
-			new TwigFunction( 'get_record', [ $this, 'getRecord' ] ),
 			new TwigFunction( '_call', [ $this, 'callStaticFunction' ] ),
 			new TwigFunction( 'codyas_tb_config', [ $this, 'getConfig' ] ),
 			new TwigFunction( 'codyas_mt2_modules', [ $this, 'getMT2Modules' ] ),
