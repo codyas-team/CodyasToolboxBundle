@@ -99,7 +99,7 @@ class CrudController extends AbstractController
 			{
 				if ( $item instanceof CrudCustomizable )
 				{
-					$actionButtons = $item->getActionButtons( $this->get( 'twig' ), $item );
+					$actionButtons = $item->getActionButtons( $this->twig, $item );
 				} else
 				{
 					$actionButtons = [
