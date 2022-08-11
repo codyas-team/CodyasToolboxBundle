@@ -17,8 +17,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <!--end::Fonts-->
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
-    <link href="{{ asset('bundles/codyastoolbox/templates/mt2/plugins/global/plugins.dark.bundle.css') }}" rel="stylesheet" type="text/css"/>
-    <link href="{{ asset('bundles/codyastoolbox/templates/mt2/css/style.dark.bundle.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('bundles/codyastoolbox/templates/mt2/plugins/global/plugins.'~codyas_tb_config('theme')~'.bundle.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('bundles/codyastoolbox/templates/mt2/css/style.'~codyas_tb_config('theme')~'.bundle.css') }}" rel="stylesheet" type="text/css"/>
     <!--end::Global Stylesheets Bundle-->
 </head>
 <!--end::Head-->
@@ -57,7 +57,7 @@
 <script>var hostUrl = "assets/";</script>
 <!--begin::Javascript-->
 <!--begin::Global Javascript Bundle(used by all pages)-->
-<script src="{{ asset('bundles/codyastoolbox/templates/mt2/plugins/global/plugins.dark.bundle.js') }}"></script>
+<script src="{{ asset('bundles/codyastoolbox/templates/mt2/plugins/global/plugins.'~codyas_tb_config('theme')~'.bundle.js') }}"></script>
 <script src="{{ asset('bundles/codyastoolbox/templates/mt2/js/scripts.bundle.js') }}"></script>
 <!--end::Global Javascript Bundle-->
 <!--end::Javascript-->
