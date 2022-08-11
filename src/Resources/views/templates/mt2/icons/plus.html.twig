@@ -1,12 +1,13 @@
+{% set fill = codyas_tb_config('theme') == 'dark' ? 'black' : 'white' %}
 <!--begin::Svg Icon | path: assets/media/icons/duotune/general/gen027.svg-->
 <span class="svg-icon {{ extraClass is defined ? extraClass : '' }}">
     <svg xmlns="http://www.w3.org/2000/svg" width="24"
             height="24" viewBox="0 0 24 24" fill="none">
     <rect opacity="0.5" x="11.364" y="20.364" width="16" height="2"
             rx="1" transform="rotate(-90 11.364 20.364)"
-            fill="black"></rect>
+            fill="{{ fill }}"></rect>
     <rect x="4.36396" y="11.364" width="16" height="2" rx="1"
-            fill="black"></rect>
+            fill="{{ fill }}"></rect>
 </svg>
 </span>
 <!--end::Svg Icon-->

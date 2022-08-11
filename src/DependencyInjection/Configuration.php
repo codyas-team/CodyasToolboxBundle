@@ -21,6 +21,7 @@ class Configuration implements ConfigurationInterface
 		                ->scalarNode( 'app_keywords' )->end()
 		                ->scalarNode( 'base_template' )->isRequired()->end()
 		                ->scalarNode( 'home_path' )->end()
+		                ->scalarNode( 'theme' )->defaultValue('dark')->end()
 		                ->scalarNode( 'logo' )->end()
 						->arrayNode('modules')
 							->children()
