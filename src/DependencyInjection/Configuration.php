@@ -22,6 +22,7 @@ class Configuration implements ConfigurationInterface
 		                ->scalarNode( 'base_template' )->isRequired()->end()
 		                ->scalarNode( 'home_path' )->end()
 		                ->scalarNode( 'theme' )->defaultValue('dark')->end()
+		                ->scalarNode( 'banner' )->defaultValue('bundles/codyastoolbox/templates/mt2/media/header-bg-dark.jpg')->end()
 		                ->scalarNode( 'logo' )->end()
 						->arrayNode('modules')
 							->children()

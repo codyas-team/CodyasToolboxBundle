@@ -2470,7 +2470,7 @@ progress {
     font-size: 1.1rem;
     font-weight: 500;
     line-height: 1.5;
-    color: #FFFFFF;
+    color: #333333;
     background-color: #FFFFFF;
     background-clip: padding-box;
     border: 1px solid #e7e7e7;
@@ -32637,7 +32637,7 @@ textarea.form-control-lg {
 }
 
 .text-dark {
-    color: #FFFFFF !important;
+    color: #333333 !important;
 }
 
 .text-inverse-dark {
@@ -40043,9 +40043,9 @@ code:not([class*=language-]) {
     opacity: 1;
 }
 .dropdown.show > .form-control.form-control-solid, .form-control.form-control-solid:active, .form-control.form-control-solid.active, .form-control.form-control-solid:focus, .form-control.form-control-solid.focus {
-    background-color: #171723;
-    border-color: #171723;
-    color: #92929F;
+    background-color: #ffffff;
+    border-color: #b5b5c3;
+    color: #333333;
     transition: color 0.2s ease, background-color 0.2s ease;
 }
 .form-control.form-control-white {
@@ -47428,11 +47428,11 @@ body.page-bg-image-lg {
         color: #fff;
     }
     body:not([data-kt-sticky-header=on]) .header .header-menu .menu > .menu-item > .menu-link .menu-icon i {
-        color: #4A4B68;
+        color: #FFFFFF;
     }
     body:not([data-kt-sticky-header=on]) .header .header-menu .menu > .menu-item > .menu-link .menu-icon .svg-icon svg [fill]:not(.permanent):not(g) {
         transition: fill 0.3s ease;
-        fill: #4A4B68;
+        fill: #FFFFFF;
     }
     body:not([data-kt-sticky-header=on]) .header .header-menu .menu > .menu-item > .menu-link .menu-icon .svg-icon svg:hover [fill]:not(.permanent):not(g) {
         transition: fill 0.3s ease;
@@ -48185,7 +48185,7 @@ body:not([data-kt-sticky-header=on]) .topbar .active.show > .btn.btn-icon .svg-i
     margin: 0 0;
 }
 .select2-container--bootstrap5 .select2-dropdown .select2-results__option.select2-results__option--highlighted {
-    background-color: #212E48;
+    background-color: #f5f5f5;
     color: #3699FF;
     transition: color 0.2s ease, background-color 0.2s ease;
 }
@@ -48195,7 +48195,7 @@ body:not([data-kt-sticky-header=on]) .topbar .active.show > .btn.btn-icon .svg-i
     transition: color 0.2s ease, background-color 0.2s ease;
 }
 .select2-container--bootstrap5 .select2-dropdown .select2-results__option.select2-results__option--disabled {
-    color: #474761;
+    color: #dedede;
 }
 .select2-container--bootstrap5 .select2-dropdown .select2-results__option.select2-results__message {
     color: #6D6D80;
@@ -48371,7 +48371,7 @@ body:not([data-kt-sticky-header=on]) .topbar .active.show > .btn.btn-icon .svg-i
 .daterangepicker .drp-calendar th.available:hover,
 .daterangepicker .drp-calendar td.available:hover {
     border-radius: 0.475rem;
-    background-color: #212E48;
+    background-color: #e7f2ff;
     color: #3699FF;
 }
 .daterangepicker .drp-calendar th {
@@ -48423,11 +48423,11 @@ body:not([data-kt-sticky-header=on]) .topbar .active.show > .btn.btn-icon .svg-i
     border-radius: 0.475rem;
 }
 .daterangepicker .drp-calendar td.in-range.available:not(.active):not(.off):not(.today) {
-    background-color: #212E48;
+    background-color: #e7f2ff;
     color: #3699FF;
 }
 .daterangepicker .drp-calendar td:hover {
-    background-color: #212E48;
+    background-color: #e7f2ff;
     color: #3699FF;
 }
 .daterangepicker select.ampmselect,

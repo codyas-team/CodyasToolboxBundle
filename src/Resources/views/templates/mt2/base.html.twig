@@ -29,6 +29,7 @@
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
     <link href="{{ asset('bundles/codyastoolbox/templates/mt2/plugins/global/plugins.'~codyas_tb_config('theme')~'.bundle.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('bundles/codyastoolbox/templates/mt2/css/style.'~codyas_tb_config('theme')~'.bundle.css') }}" rel="stylesheet" type="text/css"/>
+    <script src="https://kit.fontawesome.com/d3d1b0adfe.js" crossorigin="anonymous"></script>
     {% block stylesheets %}
         {{ encore_entry_link_tags('codyas_ep') }}
     {% endblock %}
@@ -36,7 +37,7 @@
 </head>
 <!--end::Head-->
 <!--begin::Body-->
-<body id="kt_body" style="background-image: url({{ asset('bundles/codyastoolbox/templates/mt2/media/header-bg-'~codyas_tb_config('theme')~'.jpg') }})"
+<body id="kt_body" style="background-image: url({{ asset(codyas_tb_config('banner')) }})"
         data-scope="scope-{{ scope is defined ? scope : 'app' }}"
         class="{{ codyas_tb_config('theme') }} header-fixed header-tablet-and-mobile-fixed toolbar-enabled">
 <!--begin::Main-->
