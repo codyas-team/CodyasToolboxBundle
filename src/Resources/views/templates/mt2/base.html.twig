@@ -1,4 +1,4 @@
-{% set pageTitle = pageTitle is defined ? pageTitle : ( 'Empty page' | trans) %}
+{% set pageTitle = pageTitle is defined ? (pageTitle | trans) : ( 'Empty page' | trans) %}
 {% set modules = codyas_tb_config('modules', true) %}
 {% if modules == null %}
     {% set modules = codyas_mt2_modules() %}

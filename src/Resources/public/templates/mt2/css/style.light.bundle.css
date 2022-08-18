@@ -2491,7 +2491,7 @@ progress {
     cursor: pointer;
 }
 .form-control:focus {
-    color: #FFFFFF;
+    color: #333333;
     background-color: #FFFFFF;
     border-color: #474761;
     outline: 0;
@@ -35870,23 +35870,23 @@ a:hover {
 }
 
 .menu-gray-800 .menu-item .menu-link {
-    color: #CDCDDE;
+    color: #565674;
 }
 .menu-gray-800 .menu-item .menu-link .menu-title {
-    color: #CDCDDE;
+    color: #565674;
 }
 .menu-gray-800 .menu-item .menu-link .menu-icon i {
-    color: #CDCDDE;
+    color: #565674;
 }
 .menu-gray-800 .menu-item .menu-link .menu-icon .svg-icon svg [fill]:not(.permanent):not(g) {
     transition: fill 0.3s ease;
-    fill: #CDCDDE;
+    fill: #565674;
 }
 .menu-gray-800 .menu-item .menu-link .menu-icon .svg-icon svg:hover [fill]:not(.permanent):not(g) {
     transition: fill 0.3s ease;
 }
 .menu-gray-800 .menu-item .menu-link .menu-bullet .bullet {
-    background-color: #CDCDDE;
+    background-color: #565674;
 }
 .menu-gray-800 .menu-item .menu-link .menu-arrow:after {
     background-repeat: no-repeat;
@@ -37520,9 +37520,9 @@ a:hover {
     color: #333;
 }
 .btn-check:checked + .btn.btn-light, .btn-check:active + .btn.btn-light, .btn.btn-light:focus:not(.btn-active), .btn.btn-light:hover:not(.btn-active), .btn.btn-light:active:not(.btn-active), .btn.btn-light.active, .btn.btn-light.show, .show > .btn.btn-light {
-    color: #FFFFFF;
-    border-color: #3699FF;
-    background-color: #3699FF !important;
+    color: #333333;
+    border-color: #bcc2c9;
+    background-color: #bcc2c9 !important;
 }
 .btn-check:checked + .btn.btn-light i, .btn-check:active + .btn.btn-light i, .btn.btn-light:focus:not(.btn-active) i, .btn.btn-light:hover:not(.btn-active) i, .btn.btn-light:active:not(.btn-active) i, .btn.btn-light.active i, .btn.btn-light.show i, .show > .btn.btn-light i {
     color: #333;
@@ -47325,7 +47325,7 @@ body.page-bg-image-lg {
 }
 
 .nav-custom .nav-link {
-    color: #ffffff !important;
+    color: #3699FF !important;
     opacity: 0.7;
 }
 .nav-custom .nav-link.active {
@@ -49490,7 +49490,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown):not(.modal-open
     font-weight: normal;
     font-size: 1.1rem;
     margin-top: 1.5rem;
-    color: #CDCDDE;
+    color: #333333;
 }
 .swal2-popup .btn {
     margin: 15px 5px 0;
