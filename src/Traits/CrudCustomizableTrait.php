@@ -27,9 +27,6 @@ trait CrudCustomizableTrait
 		return '@CodyasToolbox/crud/details.html.twig';
 	}
 
-	/**
-	 * @Ignore()
-	 */
 	public static function permissions()
 	{
 		return [
@@ -111,9 +108,6 @@ trait CrudCustomizableTrait
 		return [];
 	}
 
-	/**
-	 * @Ignore()
-	 */
 	public function showTableIndex(): bool
 	{
 		return true;
@@ -127,17 +121,11 @@ trait CrudCustomizableTrait
 		return false;
 	}
 
-	/**
-	 * @Ignore()
-	 */
 	public static function displayRowNumber(): bool
 	{
 		return true;
 	}
 
-	/**
-	 * @Ignore()
-	 */
 	public static function displayActionButtons(): bool
 	{
 		return true;
