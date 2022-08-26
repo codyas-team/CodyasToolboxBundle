@@ -1,10 +1,18 @@
+{% set modalSizing = '' %}
+{% if modalWider is defined and modalWider %}
+    {% set modalSizing = 'modal-lg' %}
+{% endif %}
+{% if modalXL is defined and modalXL %}
+    {% set modalSizing = 'modal-xl' %}
+{% endif %}
 <div class="modal fade modal-form" id="{{ instanceId }}-form-modal">
-    <div class="modal-dialog {{ modalWider is defined and modalWider ? 'modal-lg' : '' }}">
+    <div class="modal-dialog {{ modalSizing }}">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
                     {% include '@CodyasToolbox/templates/mt2/icons/edit.html.twig' with {'extraClass' : 'svg-icon-2'} %}
-                    {{ label | trans({'%count%' : 1}) }} {{ 'Management' | trans | lower }}</h5>
+                    {{ (label~" management") | trans }}
+                </h5>
                 <!--begin::Close-->
                 <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
                     {% include '@CodyasToolbox/templates/mt2/icons/close.html.twig' with {'extraClass' : 'svg-icon-2'} %}
@@ -26,10 +34,10 @@
     </div>
 </div>
 <div class="modal fade modal-details" id="{{ instanceId }}-details-modal">
-    <div class="modal-dialog {{ modalWider is defined and modalWider ? 'modal-lg' : '' }}"">
+    <div class="modal-dialog {{ modalSizing }}">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title"><i class="fa fa-edit"></i> {{ label | trans({'%count%' : 1}) }} {{ 'Management' | trans | lower }}</h5>
+            <h5 class="modal-title"><i class="fa fa-file"></i> {{ (label~" details") | trans }}</h5>
             <!--begin::Close-->
             <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
                 {% include '@CodyasToolbox/templates/mt2/icons/close.html.twig' with {'extraClass' : 'svg-icon-2'} %}
