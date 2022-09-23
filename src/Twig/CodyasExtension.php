@@ -163,13 +163,16 @@ class CodyasExtension extends AbstractExtension
 	{
 		return [
 			'activities' => [
-				'enabled' => false
+				'enabled' => false,
+                'header_template' => ''
 			],
 			'notifications' => [
-				'enabled' => false
+				'enabled' => false,
+                'header_template' => ''
 			],
 			'chat' => [
-				'enabled' => false
+				'enabled' => false,
+                'header_template' => ''
 			],
 			'profile' => [
 				'enabled' => true,
@@ -177,6 +180,7 @@ class CodyasExtension extends AbstractExtension
 			],
 			'quick_links' => [
 				'enabled' => false,
+                'header_template' => ''
 			],
 		];
 	}
