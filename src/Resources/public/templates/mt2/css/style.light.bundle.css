@@ -49483,7 +49483,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown):not(.modal-open
 .swal2-popup .swal2-title {
     font-weight: 500;
     font-size: 1.3rem;
-    color: #FFFFFF;
+    color: #333333;
 }
 .swal2-popup .swal2-html-container,
 .swal2-popup .swal2-content {
