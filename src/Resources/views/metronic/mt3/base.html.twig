@@ -95,7 +95,7 @@
 {#                    {% include 'metronic/partial/_global_search_topbar.html.twig' %}#}
                     {% block notificationsBar %}{% endblock %}
                     {% include '@CodyasToolbox/metronic/mt3/partial/_notifications.html.twig' %}
-                    {% include '@CodyasToolbox/metronic/mt3/partial/_user_bar.html.twig' %}
+                    {% block userBar %}{% include '@CodyasToolbox/metronic/mt3/partial/_user_bar.html.twig' %}{% endblock %}
                 </div>
                 <!-- end:: Header Topbar -->
             </div>
