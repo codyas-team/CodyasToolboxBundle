@@ -59,6 +59,7 @@ class CrudController extends AbstractController
     /**
      * @Route("/crud/fetch/{entity}", name="crud_fetch")
      */
+    #[Route("/crud/fetch/{entity}", name:"crud_fetch")]
     public function fetch(ManagerRegistry $registry, $entity, PaginatorInterface $paginator, Request $request, TranslatorInterface $translator)
     {
         $this->isActionAllowed($entity, 'view');
@@ -133,6 +134,7 @@ class CrudController extends AbstractController
     /**
      * @Route("/crud/export/{entity}/{format}", name="crud_export")
      */
+    #[Route("/crud/export/{entity}/{format}", name:"crud_export")]
     public function export(ReportGeneratorService $reportGeneratorService, $format, $entity, PaginatorInterface $paginator, Request $request, TranslatorInterface $translator, Environment $twig)
     {
         $start = $request->query->get('start', 0);
@@ -212,6 +214,7 @@ class CrudController extends AbstractController
     /**
      * @Route("/crud/new/{entity}", name="crud_new", methods={"GET","POST"})
      */
+    #[Route("/crud/new/{entity}", name:"crud_new", methods: ["GET","POST"])]
     public function newRecord(ManagerRegistry $registry, Request $request, $entity)
     {
         $this->isActionAllowed($entity, 'create');
@@ -273,6 +276,7 @@ class CrudController extends AbstractController
     /**
      * @Route("/crud/edit/{entity}/{id}", name="crud_edit", methods={"GET","POST"})
      */
+    #[Route("/crud/edit/{entity}/{id}", name:"crud_edit", methods: ["GET","POST"])]
     public function editRecord(ManagerRegistry $registry, Request $request, $entity, $id)
     {
         $this->isActionAllowed($entity, 'edit');
@@ -316,6 +320,7 @@ class CrudController extends AbstractController
     /**
      * @Route("/crud/remove/{entity}/{id}", name="crud_remove", methods={"DELETE"})
      */
+    #[Route("/crud/remove/{entity}/{id}", name:"crud_remove", methods: ["DELETE"])]
     public function removeRecord(Request $request, $entity, $id)
     {
         $this->isActionAllowed($entity, 'remove');
@@ -361,6 +366,7 @@ class CrudController extends AbstractController
     /**
      * @Route("/crud/details/{entity}/{id}", name="crud_details", methods={"GET"})
      */
+    #[Route("/crud/details/{entity}/{id}", name:"crud_details", methods: ["GET"])]
     public function recordDetails(ManagerRegistry $registry, Request $request, $entity, $id)
     {
         $this->isActionAllowed($entity, 'view');
