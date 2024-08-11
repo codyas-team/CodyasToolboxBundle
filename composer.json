@@ -16,7 +16,7 @@
   "minimum-stability": "dev",
   "require": {
     "php": ">=7.4.0",
-    "knplabs/knp-paginator-bundle": "^5.0",
+    "knplabs/knp-paginator-bundle": "^5.0 || ^6.0",
     "stof/doctrine-extensions-bundle": "^1.0",
     "symfony/flex": "^1.0 || ^2.0",
     "symfony/form": "^4.4 || ^5.0 || ^6.0 || ^7.0",
