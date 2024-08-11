@@ -59,8 +59,8 @@ class CodyasExtension extends AbstractExtension
 
 	}
 
-	public function isMenuActive( $menu )
-	{
+	public function isMenuActive( $menu ): bool
+    {
 		$request = $this->requestStack->getCurrentRequest();
 
 		$currentRoute = $request->attributes->get( '_route' );
@@ -81,8 +81,8 @@ class CodyasExtension extends AbstractExtension
 		return $isActive;
 	}
 
-	public function isMenuParentActive( $children )
-	{
+	public function isMenuParentActive( $children ): bool
+    {
 		foreach ( $children as $child )
 		{
 			if ( array_key_exists( 'children', $child ) )
